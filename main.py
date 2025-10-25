@@ -57,9 +57,9 @@ def resume_all():
             proc.resume()
         except Exception:
             pass
-
+        
 def menu():
-    print("\n=== Windows Firewall Project ===")
+    print("\n=== Windows Firewall ===")
     print("Running:", ", ".join(running_processes.keys()) or "None")
     print("1. Start Sniffer")
     print("2. Start Blocker")

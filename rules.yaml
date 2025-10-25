@@ -1,20 +1,63 @@
-# rules.yaml
+# ==========================================================
+# Windows Packet Filtering Firewall Rules (Balanced Mode)
+# ==========================================================
 
+# 1️⃣ Block plain HTTP (port 80)
 - id: 1
   action: block
   protocol: TCP
   dst_port: 80
-  comment: "Block HTTP traffic"
+  comment: "Block unencrypted HTTP traffic"
 
+# 2️⃣ Allow secure HTTPS
 - id: 2
-  action: block
+  action: allow
   protocol: TCP
   dst_port: 443
-  comment: "Block HTTPS traffic"
+  comment: "Allow HTTPS traffic"
 
+# 3️⃣ Allow DNS queries
 - id: 3
   action: allow
   protocol: UDP
   dst_port: 53
-  comment: "Allow DNS queries"
+  comment: "Allow DNS lookups"
 
+# 4️⃣ Block ICMP (ping/traceroute)
+- id: 4
+  action: block
+  protocol: ICMP
+  comment: "Block ICMP echo requests"
+
+# 5️⃣ Block known risky outbound ports (e.g., SMB, Telnet, FTP)
+- id: 5
+  action: block
+  protocol: TCP
+  dst_port: [21, 23, 135, 139, 445]
+  comment: "Block risky service ports (FTP, Telnet, SMB)"
+
+# 6️⃣ Allow all local subnet communication
+- id: 6
+  action: allow
+  src_ip: 192.168.0.0/16
+  dst_ip: 192.168.0.0/16
+  comment: "Allow local LAN traffic"
+
+# 7️⃣ Block GeoIP traffic from specific regions (for test)
+- id: 7
+  action: block
+  geoip_country: CN
+  comment: "Block traffic from China (GeoIP demo)"
+
+# 8️⃣ Rate-limit repeated connections from same IP (>100 packets/10s)
+- id: 8
+  action: block
+  rate_limit:
+    threshold: 100
+    window_seconds: 10
+  comment: "Rate-limit excessive connections"
+
+# 9️⃣ Default allow
+- id: 9
+  action: allow
+  comment: "Allow all other traffic"

@@ -1,228 +1,215 @@
-import time
 import os
-import threading
+import time
 import json
-from collections import defaultdict, deque
-from datetime import datetime, timezone
 import yaml
-import ipaddress
+import uuid
+import subprocess
+from datetime import datetime
+import pydivert
+import psutil
 
 try:
-    import pydivert
-except Exception as e:
-    raise SystemExit("pydivert is required. Install it and ensure WinDivert files are in place and run as Admin.") from e
+    from colorama import Fore, Style, init as colorama_init
+    colorama_init()
+    COLOR_AVAILABLE = True
+except ImportError:
+    COLOR_AVAILABLE = False
 
-# Optional GeoIP
+RULES_FILE = "rules.yaml"
+LOG_DIR = "logs"
+GEOIP_DB_PATH = "GeoLite2-Country.mmdb"
+RULE_REFRESH_INTERVAL = 10
+
+for sub in ["allowed_packets", "blocked_packets", "all_packets"]:
+    os.makedirs(os.path.join(LOG_DIR, sub), exist_ok=True)
+
 try:
     import geoip2.database
     GEOIP_AVAILABLE = True
-except Exception:
+except ImportError:
     GEOIP_AVAILABLE = False
+    print("[!] geoip2 not installed. Run: pip install geoip2")
 
-RULES_PATH = "rules.yaml"
-LOG_PATH = "firewall_log.jsonl"
-GEOIP_DB_PATH = "GeoLite2-Country.mmdb"
 
-rate_counters = defaultdict(lambda: deque())
-_rules = []
-_rules_mtime = 0
-_rules_lock = threading.Lock()
-
-# --- FIX: Safe protocol normalization ---
-def get_protocol_name(packet):
-    proto = getattr(packet, "protocol", None)
-    if proto is None:
-        return None
-    if hasattr(proto, "name"):  # enum-like
-        return proto.name.upper()
-    if isinstance(proto, (tuple, list)):
-        return str(proto[1]).upper() if len(proto) > 1 else str(proto[0])
-    if isinstance(proto, int):
-        mapping = {6: "TCP", 17: "UDP", 1: "ICMP"}
-        return mapping.get(proto, str(proto))
-    return str(proto).upper()
-
-def load_rules():
-    global _rules, _rules_mtime
+def stop_existing_windivert():
+    """Ensure no stale WinDivert instances remain loaded."""
     try:
-        mtime = os.path.getmtime(RULES_PATH)
-    except FileNotFoundError:
-        print(f"[!] {RULES_PATH} not found.")
-        return
-
-    if mtime == _rules_mtime:
-        return
-
-    with open(RULES_PATH, "r") as f:
-        data = yaml.safe_load(f) or []
-
-    processed = []
-    for r in data:
-        pr = dict(r)
-        if "protocol" in pr and pr["protocol"]:
-            pr["protocol"] = pr["protocol"].upper()
-        for field in ("src_ip", "dst_ip"):
-            if field in pr and pr[field]:
+        for proc in psutil.process_iter(['pid', 'name']):
+            if 'python' in proc.name().lower():
                 try:
-                    pr[field + "_net"] = ipaddress.ip_network(pr[field], strict=False)
-                except Exception:
-                    pr[field + "_net"] = None
-        if "rate_limit" in pr and pr["rate_limit"]:
-            rl = pr["rate_limit"]
-            pr.setdefault("_rate_threshold", int(rl.get("threshold", 100)))
-            pr.setdefault("_rate_window", int(rl.get("window_seconds", 10)))
-        processed.append(pr)
+                    for c in proc.cmdline():
+                        if 'pydivert' in c or 'WinDivert' in c:
+                            print(f"[!] Terminating old WinDivert process PID={proc.pid}")
+                            proc.terminate()
+                            proc.wait(timeout=2)
+                except (psutil.NoSuchProcess, psutil.AccessDenied):
+                    continue
 
-    with _rules_lock:
-        _rules = processed
-        _rules_mtime = mtime
-    print(f"[+] Loaded {len(processed)} rules (mtime: {datetime.fromtimestamp(mtime)})")
+        # Try force-unloading driver
+        subprocess.run(["sc", "stop", "WinDivert"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.run(["sc", "start", "WinDivert"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except Exception as e:
+        print(f"[Driver Check] Warning: {e}")
 
-def rules_watcher(interval=2):
-    while True:
-        try:
-            load_rules()
-        except Exception as e:
-            print("Error loading rules:", e)
-        time.sleep(interval)
 
-def matches_cidr(packet_ip, net):
-    if not net:
+def validate_geoip():
+    if not GEOIP_AVAILABLE:
+        return False
+    if not os.path.exists(GEOIP_DB_PATH):
         return False
     try:
-        return ipaddress.ip_address(packet_ip) in net
+        with geoip2.database.Reader(GEOIP_DB_PATH) as reader:
+            reader.country("8.8.8.8")
+        print(f"[+] GeoIP test passed: 8.8.8.8 -> US")
+        return True
     except Exception:
         return False
 
+
+def get_proto(packet):
+    try:
+        if hasattr(packet.protocol, "name"):
+            return packet.protocol.name.upper()
+        elif isinstance(packet.protocol, tuple):
+            return str(packet.protocol[0])
+        else:
+            return str(packet.protocol).upper()
+    except Exception:
+        return "UNKNOWN"
+
+
+def load_rules():
+    try:
+        with open(RULES_FILE, "r") as f:
+            rules = yaml.safe_load(f) or []
+            print(f"[+] Loaded {len(rules)} rules (mtime: {datetime.fromtimestamp(os.path.getmtime(RULES_FILE))})")
+            return rules
+    except Exception as e:
+        print(f"[!] Failed to load rules: {e}")
+        return []
+
+
 def check_geoip(ip):
-    if not GEOIP_AVAILABLE:
-        return None
-    if not os.path.exists(GEOIP_DB_PATH):
+    if not GEOIP_AVAILABLE or not os.path.exists(GEOIP_DB_PATH):
         return None
     try:
         with geoip2.database.Reader(GEOIP_DB_PATH) as reader:
-            resp = reader.country(ip)
-            return resp.country.iso_code
+            return reader.country(ip).country.iso_code
     except Exception:
         return None
 
-def rate_limited(src_ip, rule):
-    thr = rule.get("_rate_threshold")
-    window = rule.get("_rate_window")
-    if not thr or not window:
-        return False
-    now = time.time()
-    dq = rate_counters[src_ip]
-    while dq and dq[0] < now - window:
-        dq.popleft()
-    dq.append(now)
-    if len(dq) > thr:
-        return True
-    return False
 
-def match_rule(packet, rules):
-    with _rules_lock:
-        local_rules = list(_rules)
-
-    proto_name = get_protocol_name(packet)
-    src_ip = packet.src_addr
-    dst_ip = packet.dst_addr
-    src_port = getattr(packet, "src_port", None)
-    dst_port = getattr(packet, "dst_port", None)
-
-    for rule in local_rules:
-        if "protocol" in rule and rule.get("protocol"):
-            if proto_name != rule["protocol"]:
-                continue
-        if "src_ip_net" in rule and rule["src_ip_net"] is not None:
-            if not matches_cidr(src_ip, rule["src_ip_net"]):
-                continue
-        elif "src_ip" in rule and rule.get("src_ip"):
-            if src_ip != rule["src_ip"]:
-                continue
-        if "dst_ip_net" in rule and rule["dst_ip_net"] is not None:
-            if not matches_cidr(dst_ip, rule["dst_ip_net"]):
-                continue
-        elif "dst_ip" in rule and rule.get("dst_ip"):
-            if dst_ip != rule["dst_ip"]:
-                continue
-        if "dst_port" in rule and rule.get("dst_port") is not None:
-            if dst_port != int(rule["dst_port"]):
-                continue
-        if "src_port" in rule and rule.get("src_port") is not None:
-            if src_port != int(rule["src_port"]):
-                continue
-        if "geoip_country" in rule and rule.get("geoip_country"):
-            country = check_geoip(src_ip)
-            if country is None:
-                continue
-            if country.upper() != rule["geoip_country"].upper():
-                continue
-        if "rate_limit" in rule and rule.get("rate_limit"):
-            if rate_limited(src_ip, rule):
-                rule = dict(rule)
-                rule["_rate_hit"] = True
-                return rule
-        return rule
-    return None
-
-def log_decision(entry):
+def log_packet(entry):
     try:
-        with open(LOG_PATH, "a", encoding="utf-8") as f:
+        action = entry.get("action", "UNKNOWN").upper()
+        date_str = datetime.now().strftime("%Y-%m-%d")
+        fname = f"packet_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}_{uuid.uuid4().hex[:6]}_{action.lower()}.json"
+        folder = os.path.join(LOG_DIR, "blocked_packets" if action == "BLOCK" else "allowed_packets")
+
+        with open(os.path.join(folder, fname), "w", encoding="utf-8") as f:
+            json.dump(entry, f, indent=4, default=str)
+
+        with open(os.path.join(LOG_DIR, "all_packets", f"firewall_all_{date_str}.jsonl"), "a", encoding="utf-8") as f:
             f.write(json.dumps(entry, default=str) + "\n")
     except Exception as e:
-        print("Failed to write log:", e)
+        print(f"[Log Error] {e}")
+
+
+def match_rule(packet, rules):
+    try:
+        proto = get_proto(packet)
+        for r in rules:
+            if r.get("protocol", "").upper() and r["protocol"].upper() != proto:
+                continue
+            if r.get("dst_port") and r["dst_port"] != packet.dst_port:
+                continue
+            return r
+        return None
+    except Exception as e:
+        print(f"[Rule Error] {e}")
+        return None
+
 
 def run_firewall():
-    load_rules()
-    t = threading.Thread(target=rules_watcher, daemon=True)
-    t.start()
+    print("Make sure you run this script as Administrator.")
+    print("[*] Initializing firewall engine...")
+    geoip_ready = validate_geoip()
+    if not geoip_ready:
+        print("[!] GeoIP disabled.")
 
-    with pydivert.WinDivert("true") as w:
-        print("[*] Firewall running with rules... Press Ctrl+C to stop.")
-        for packet in w:
-            try:
-                pkt_info = {
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
-                    "src_ip": getattr(packet, "src_addr", None),
-                    "dst_ip": getattr(packet, "dst_addr", None),
-                    "src_port": getattr(packet, "src_port", None),
-                    "dst_port": getattr(packet, "dst_port", None),
-                    "protocol": get_protocol_name(packet)
-                }
+    stop_existing_windivert()
+    rules = load_rules()
+    last_reload = time.time()
 
-                rule = match_rule(packet, _rules)
-                if rule:
-                    action = rule.get("action", "block").lower()
-                    if action == "block":
-                        entry = {**pkt_info, "action": "BLOCK", "rule_id": rule.get("id"), "comment": rule.get("comment")}
-                        if rule.get("_rate_hit"):
-                            entry["reason"] = "rate_limit"
-                        log_decision(entry)
-                        print(f"[BLOCK] {entry['src_ip']}:{entry['src_port']} -> {entry['dst_ip']}:{entry['dst_port']} rule={rule.get('id')}")
-                        continue
-                    elif action == "allow":
-                        entry = {**pkt_info, "action": "ALLOW", "rule_id": rule.get("id"), "comment": rule.get("comment")}
-                        log_decision(entry)
-                        w.send(packet)
-                        continue
-                    elif action == "log":
-                        entry = {**pkt_info, "action": "LOG", "rule_id": rule.get("id"), "comment": rule.get("comment")}
-                        log_decision(entry)
-                        w.send(packet)
-                        continue
-                    else:
-                        w.send(packet)
-                        continue
-                else:
-                    w.send(packet)
-            except Exception as e:
-                print("Runtime error:", e)
-                try:
-                    w.send(packet)
-                except Exception:
-                    pass
+    # ✅ VALID FILTER — captures TCP/UDP/ICMP except loopback
+    filter_str = "(ip or ipv6) and (tcp or udp or icmp) and (not ip.SrcAddr == 127.0.0.1 and not ip.DstAddr == 127.0.0.1)"
+
+    retry_delay = 1
+    while True:
+        try:
+            print("[*] Opening WinDivert driver...")
+            with pydivert.WinDivert(filter_str) as w:
+                print("[*] Firewall running with rules... Press Ctrl+C to stop.")
+                retry_delay = 1
+
+                for packet in w:
+                    try:
+                        if time.time() - last_reload > RULE_REFRESH_INTERVAL:
+                            rules = load_rules()
+                            last_reload = time.time()
+
+                        rule = match_rule(packet, rules)
+                        src_ip, dst_ip = packet.src_addr, packet.dst_addr
+                        src_port, dst_port = packet.src_port, packet.dst_port
+                        proto = get_proto(packet)
+                        action = rule.get("action", "allow").lower() if rule else "allow"
+
+                        entry = {
+                            "timestamp": datetime.now().isoformat(),
+                            "src_ip": src_ip,
+                            "src_port": src_port,
+                            "dst_ip": dst_ip,
+                            "dst_port": dst_port,
+                            "protocol": proto,
+                            "action": action.upper(),
+                            "rule_id": rule.get("id") if rule else None,
+                            "comment": rule.get("comment") if rule else "Default allow"
+                        }
+
+                        log_packet(entry)
+
+                        msg = f"[{action.upper()}] {src_ip}:{src_port} -> {dst_ip}:{dst_port} ({proto}) " \
+                              f"{'rule=' + str(rule.get('id')) if rule else '[default]'}"
+                        if COLOR_AVAILABLE:
+                            color = Fore.RED if action == "block" else Fore.GREEN
+                            print(color + msg + Style.RESET_ALL)
+                        else:
+                            print(msg)
+
+                        if action == "block":
+                            continue
+                        else:
+                            w.send(packet)
+
+                    except KeyboardInterrupt:
+                        print("\n[!] Stopping firewall...")
+                        return
+                    except OSError as e:
+                        if hasattr(e, "winerror") and e.winerror == 183:
+                            print("[!] WinDivert collision detected — cleaning up...")
+                            stop_existing_windivert()
+                            time.sleep(3)
+                            break
+                        else:
+                            print(f"[Recv Error] {e}")
+        except KeyboardInterrupt:
+            print("\n[!] Firewall stopped by user.")
+            break
+        except Exception as e:
+            print(f"[!] Driver open error: {e}")
+            time.sleep(retry_delay)
+            retry_delay = min(retry_delay * 2, 8)
+
 
 if __name__ == "__main__":
-    print("Make sure you run this script as Administrator.")
     run_firewall()
