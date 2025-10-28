@@ -1,63 +1,59 @@
-# ==========================================================
-# Windows Packet Filtering Firewall Rules (Balanced Mode)
-# ==========================================================
+# ======================================================
+# CPFF Firewall Rules (Balanced & Realistic Demo Set)
+# ======================================================
 
-# 1️⃣ Block plain HTTP (port 80)
+# 🚫 1. Block unencrypted HTTP
 - id: 1
   action: block
   protocol: TCP
   dst_port: 80
-  comment: "Block unencrypted HTTP traffic"
+  comment: Block unencrypted HTTP web traffic (insecure websites)
 
-# 2️⃣ Allow secure HTTPS
-- id: 2
-  action: allow
-  protocol: TCP
-  dst_port: 443
-  comment: "Allow HTTPS traffic"
-
-# 3️⃣ Allow DNS queries
-- id: 3
-  action: allow
-  protocol: UDP
-  dst_port: 53
-  comment: "Allow DNS lookups"
-
-# 4️⃣ Block ICMP (ping/traceroute)
+# 🚫 4. Block selected GeoIP region (for demo)
 - id: 4
   action: block
-  protocol: ICMP
-  comment: "Block ICMP echo requests"
+  geoip_country: RU
+  comment: Block traffic from Russia (GeoIP demonstration)
 
-# 5️⃣ Block known risky outbound ports (e.g., SMB, Telnet, FTP)
-- id: 5
+# 🚫 4. Block selected GeoIP region (for demo)
+- id: 4
   action: block
-  protocol: TCP
-  dst_port: [21, 23, 135, 139, 445]
-  comment: "Block risky service ports (FTP, Telnet, SMB)"
+  geoip_country: US
+  comment: Block traffic from Russia (GeoIP demonstration)
 
-# 6️⃣ Allow all local subnet communication
+# 🚫 4. Block selected GeoIP region (for demo)
+- id: 4
+  action: block
+  geoip_country: PK
+  comment: Block traffic from Russia (GeoIP demonstration)
+
+# 🚫 4. Block selected GeoIP region (for demo)
+- id: 4
+  action: block
+  geoip_country: NK
+  comment: Block traffic from Russia (GeoIP demonstration)
+
+# ✅ 6. Allow local LAN traffic
 - id: 6
   action: allow
   src_ip: 192.168.0.0/16
   dst_ip: 192.168.0.0/16
-  comment: "Allow local LAN traffic"
+  comment: Allow internal LAN communications
 
-# 7️⃣ Block GeoIP traffic from specific regions (for test)
+# ✅ 7. Allow DNS lookups
 - id: 7
-  action: block
-  geoip_country: CN
-  comment: "Block traffic from China (GeoIP demo)"
+  action: allow
+  protocol: UDP
+  dst_port: 53
+  comment: Allow DNS queries
 
-# 8️⃣ Rate-limit repeated connections from same IP (>100 packets/10s)
+# ✅ 8. Allow HTTPS
 - id: 8
-  action: block
-  rate_limit:
-    threshold: 100
-    window_seconds: 10
-  comment: "Rate-limit excessive connections"
+  action: allow
+  protocol: TCP
+  dst_port: 443
+  comment: Allow secure HTTPS traffic
 
-# 9️⃣ Default allow
+# ✅ 9. Default catch-all (allow everything else)
 - id: 9
   action: allow
-  comment: "Allow all other traffic"

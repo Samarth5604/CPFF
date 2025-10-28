@@ -3,13 +3,11 @@ firewall_core.py
 ----------------
 Core logic for the Windows-based Packet Filtering Firewall.
 
-Responsibilities:
- - Load and normalize rules from YAML
- - Match packets against rules (protocol, IP, ports, GeoIP, rate-limit)
- - Log allowed/blocked packets to JSON files (with UTC timestamps)
- - Provide reusable, thread-safe API for the daemon layer
-
-This module does NOT capture or inject packets — that’s handled by firewall_daemon.py.
+Features:
+ - YAML-based rule loading
+ - Packet-to-rule matching (protocol, port, IP, GeoIP, rate-limit)
+ - Buffered (asynchronous) logging with flush-on-shutdown
+ - Thread-safe rule reloading and rate-limiting
 """
 
 import os
@@ -18,21 +16,30 @@ import json
 import yaml
 import uuid
 import ipaddress
+import threading
+import queue
 from datetime import datetime, timezone
 from collections import defaultdict, deque
-import threading
 
 # ----------------------------
 # Configuration
 # ----------------------------
 RULES_PATH = "rules.yaml"
 LOG_DIR = "logs"
-ALLOWED_DIR = os.path.join(LOG_DIR, "allowed_packets")
-BLOCKED_DIR = os.path.join(LOG_DIR, "blocked_packets")
 ALL_DIR = os.path.join(LOG_DIR, "all_packets")
 GEOIP_DB_PATH = "GeoLite2-Country.mmdb"
 
-# Try to load GeoIP support
+LOG_FLUSH_INTERVAL = 3        # seconds between flushes
+LOG_QUEUE_MAXSIZE = 5000      # prevent memory overflow
+
+# ----------------------------
+# Directories
+# ----------------------------
+os.makedirs(ALL_DIR, exist_ok=True)
+
+# ----------------------------
+# GeoIP setup
+# ----------------------------
 try:
     import geoip2.database
     GEOIP_AVAILABLE = True
@@ -40,33 +47,100 @@ except Exception:
     GEOIP_AVAILABLE = False
 
 # ----------------------------
-# Global data structures
+# Global State
 # ----------------------------
-rate_counters = defaultdict(lambda: deque())  # for rate-limiting
-_rules = []                                   # loaded rules
-_rules_last_load_time = 0                     # timestamp of last reload
-_rules_lock = threading.Lock()                # thread safety lock
-
-
-# ----------------------------
-# Initialization Helpers
-# ----------------------------
-def initialize_log_dirs():
-    """Ensure all log directories exist (only called once)."""
-    for d in (ALLOWED_DIR, BLOCKED_DIR, ALL_DIR):
-        os.makedirs(d, exist_ok=True)
-
-
-initialize_log_dirs()  # Run at import
-
+rate_counters = defaultdict(lambda: deque())
+_rules = []
+_rules_mtime = 0
+_rules_lock = threading.Lock()
 
 # ----------------------------
-# GeoIP Utilities
+# Buffered Logging System
+# ----------------------------
+_log_queue = queue.Queue(maxsize=LOG_QUEUE_MAXSIZE)
+_log_lock = threading.Lock()
+_log_stop_event = threading.Event()
+
+
+def _flush_once():
+    """Write all queued logs to disk immediately with readable timestamps."""
+    logs_to_flush = []
+    try:
+        while not _log_queue.empty():
+            logs_to_flush.append(_log_queue.get_nowait())
+    except queue.Empty:
+        pass
+
+    if not logs_to_flush:
+        return
+
+    # Normalize timestamps (convert epoch -> ISO string)
+    for log in logs_to_flush:
+        ts = log.get("timestamp")
+        if isinstance(ts, (int, float)):
+            # Convert epoch seconds to human-readable UTC time
+            log["timestamp"] = datetime.fromtimestamp(ts, tz=timezone.utc).strftime("%Y-%m-%d %H:%M:%S.%f UTC")
+        elif isinstance(ts, datetime):
+            # Convert datetime object to ISO8601
+            log["timestamp"] = ts.astimezone(timezone.utc).strftime("%Y-%m-%d %H:%M:%S.%f UTC")
+        elif isinstance(ts, str):
+            # Keep ISO strings but normalize spacing
+            if "T" in ts:
+                log["timestamp"] = ts.replace("T", " ").split("+")[0] + " UTC"
+
+    date_str = datetime.now().strftime("%Y-%m-%d")
+    summary_path = os.path.join(ALL_DIR, f"firewall_all_{date_str}.jsonl")
+
+    try:
+        with _log_lock, open(summary_path, "a", encoding="utf-8") as f:
+            for log in logs_to_flush:
+                f.write(json.dumps(log, ensure_ascii=False) + "\n")
+        print(f"[Log Flush] Wrote {len(logs_to_flush)} entries → {summary_path}")
+    except Exception as e:
+        print(f"[Log Flush Error] {e}")
+
+
+def _log_writer():
+    """Background thread: periodically flush logs until stop event."""
+    while not _log_stop_event.is_set():
+        time.sleep(LOG_FLUSH_INTERVAL)
+        _flush_once()
+    # Final flush before exit
+    _flush_once()
+    print("[Log Flush] Final flush complete.")
+
+
+def start_logger():
+    """Start the background log writer thread."""
+    t = threading.Thread(target=_log_writer, daemon=True)
+    t.start()
+    return t
+
+
+def stop_logger():
+    """Signal logger thread to stop and flush."""
+    _log_stop_event.set()
+    time.sleep(0.5)
+    _flush_once()
+
+
+def log_packet(entry):
+    """Queue packet log entry for asynchronous flush."""
+    try:
+        _log_queue.put_nowait(entry)
+    except queue.Full:
+        print("[!] Log queue full — dropping entries.")
+
+
+# Start the logger as soon as module loads
+start_logger()
+
+# ----------------------------
+# GeoIP Functions
 # ----------------------------
 def validate_geoip():
-    """Validate that GeoIP database is working properly."""
+    """Check GeoIP availability."""
     if not GEOIP_AVAILABLE or not os.path.exists(GEOIP_DB_PATH):
-        print("[!] GeoIP unavailable or database missing.")
         return False
     try:
         with geoip2.database.Reader(GEOIP_DB_PATH) as reader:
@@ -74,12 +148,11 @@ def validate_geoip():
             print(f"[+] GeoIP test passed: 8.8.8.8 -> {result.country.iso_code}")
             return True
     except Exception:
-        print("[!] GeoIP validation failed.")
         return False
 
 
 def check_geoip(ip):
-    """Return ISO country code for given IP, or None if lookup fails."""
+    """Return ISO country code for given IP."""
     if not GEOIP_AVAILABLE or not os.path.exists(GEOIP_DB_PATH):
         return None
     try:
@@ -91,123 +164,66 @@ def check_geoip(ip):
 
 
 # ----------------------------
-# Utility Functions
-# ----------------------------
-def _get_attr(obj, attr, default=None):
-    """Safely get an attribute or dict key."""
-    try:
-        return getattr(obj, attr)
-    except Exception:
-        try:
-            return obj.get(attr, default)
-        except Exception:
-            return default
-
-
-def get_protocol_name(packet):
-    """Normalize protocol to string, handling multiple pydivert representations."""
-    proto = _get_attr(packet, "protocol", None)
-    try:
-        if proto is None:
-            return None
-        if hasattr(proto, "name"):
-            return proto.name.upper()
-        if isinstance(proto, (tuple, list)):
-            return str(proto[1]).upper() if len(proto) > 1 else str(proto[0]).upper()
-        if isinstance(proto, int):
-            mapping = {6: "TCP", 17: "UDP", 1: "ICMP"}
-            return mapping.get(proto, str(proto))
-        return str(proto).upper()
-    except Exception:
-        return str(proto)
-
-
-def matches_cidr(ip_str, net):
-    """Return True if IP belongs to CIDR network, False otherwise."""
-    if not net:
-        return False
-    try:
-        return ipaddress.ip_address(ip_str) in net
-    except Exception:
-        return False
-
-
-# ----------------------------
-# Rule Loading and Normalization
+# Rule Handling
 # ----------------------------
 def _parse_single_rule(r):
-    """Normalize one rule dict: protocol, IPs, ports, rate-limit."""
+    """Normalize one rule dict for internal use."""
     pr = dict(r)
 
-    # Normalize protocol
     if "protocol" in pr and pr["protocol"]:
         pr["protocol"] = str(pr["protocol"]).upper()
 
-    # Parse CIDRs (store as *_net)
     for field in ("src_ip", "dst_ip"):
-        val = pr.get(field)
-        if val:
+        if field in pr and pr[field]:
             try:
-                pr[field + "_net"] = ipaddress.ip_network(str(val), strict=False)
+                pr[field + "_net"] = ipaddress.ip_network(str(pr[field]), strict=False)
             except Exception:
                 pr[field + "_net"] = None
         else:
             pr[field + "_net"] = None
 
-    # Normalize ports
     for p in ("src_port", "dst_port"):
         if p in pr and pr[p] is not None:
             try:
-                pr[p] = int(pr[p])
+                if isinstance(pr[p], list):
+                    pr[p] = [int(x) for x in pr[p]]
+                else:
+                    pr[p] = int(pr[p])
             except Exception:
                 pr[p] = None
 
-    # Handle rate-limit block
     rl = pr.get("rate_limit")
     if rl:
         try:
             pr["_rate_threshold"] = int(rl.get("threshold", 100))
             pr["_rate_window"] = int(rl.get("window_seconds", 10))
         except Exception:
-            pr["_rate_threshold"], pr["_rate_window"] = None, None
+            pr["_rate_threshold"] = pr["_rate_window"] = None
     else:
-        pr["_rate_threshold"], pr["_rate_window"] = None, None
+        pr["_rate_threshold"] = pr["_rate_window"] = None
 
     return pr
 
 
 def load_rules(path=RULES_PATH):
     """Load and preprocess rules from YAML file."""
-    global _rules, _rules_last_load_time
+    global _rules, _rules_mtime
     try:
         mtime = os.path.getmtime(path)
     except FileNotFoundError:
-        print(f"[!] Rules file not found: {path}")
         return 0
 
-    if mtime == _rules_last_load_time:
+    if mtime == _rules_mtime:
         return len(_rules)
 
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            data = yaml.safe_load(f) or []
-    except Exception as e:
-        print(f"[!] Error reading {path}: {e}")
-        return 0
+    with open(path, "r", encoding="utf-8") as f:
+        data = yaml.safe_load(f) or []
 
-    processed = []
-    for r in data:
-        try:
-            processed.append(_parse_single_rule(r))
-        except Exception as e:
-            print(f"[WARN] Skipping invalid rule: {e}")
-            continue
-
+    processed = [_parse_single_rule(r) for r in data]
     with _rules_lock:
         _rules = processed
-        _rules_last_load_time = mtime
+        _rules_mtime = mtime
 
-    print(f"[+] Loaded {len(processed)} rules (mtime: {datetime.fromtimestamp(mtime)})")
     return len(processed)
 
 
@@ -218,187 +234,93 @@ def get_rules():
 
 
 # ----------------------------
-# Rate Limiting Logic
+# Rate Limiting
 # ----------------------------
-def rate_limited(key, rule):
-    """Return True if the key (usually src_ip) exceeds rate limit."""
-    thr = rule.get("_rate_threshold")
-    window = rule.get("_rate_window")
+def rate_limited(ip, rule):
+    thr, window = rule.get("_rate_threshold"), rule.get("_rate_window")
     if not thr or not window:
         return False
-
     now = time.time()
-    dq = rate_counters[key]
-
-    # Remove old timestamps
+    dq = rate_counters[ip]
     while dq and dq[0] < now - window:
         dq.popleft()
-
     dq.append(now)
     return len(dq) > thr
 
 
 # ----------------------------
-# Rule Matching Logic
+# Packet Matching
 # ----------------------------
+def matches_cidr(ip, net):
+    if not net:
+        return False
+    try:
+        return ipaddress.ip_address(ip) in net
+    except Exception:
+        return False
+
+
+def get_protocol_name(packet):
+    proto = getattr(packet, "protocol", None)
+    if proto is None:
+        return None
+    if hasattr(proto, "name"):
+        return proto.name.upper()
+    if isinstance(proto, (tuple, list)):
+        return str(proto[1]).upper() if len(proto) > 1 else str(proto[0])
+    if isinstance(proto, int):
+        return {6: "TCP", 17: "UDP", 1: "ICMP"}.get(proto, str(proto))
+    return str(proto).upper()
+
+
 def match_rule(packet, rules=None):
-    """
-    Compare a packet against rules.
-    Return a copy of the first matching rule dict or None.
-    """
+    """Match a packet against loaded firewall rules."""
     if rules is None:
         rules = get_rules()
 
-    proto_name = get_protocol_name(packet)
-    src_ip = _get_attr(packet, "src_addr")
-    dst_ip = _get_attr(packet, "dst_addr")
-    src_port = _get_attr(packet, "src_port")
-    dst_port = _get_attr(packet, "dst_port")
+    proto = get_protocol_name(packet)
+    src_ip = getattr(packet, "src_addr", None)
+    dst_ip = getattr(packet, "dst_addr", None)
+    src_port = getattr(packet, "src_port", None)
+    dst_port = getattr(packet, "dst_port", None)
 
-    for rule in rules:
-        # Protocol check
-        if rule.get("protocol") and proto_name and proto_name.upper() != rule["protocol"].upper():
+    for r in rules:
+        if r.get("protocol") and proto != r["protocol"]:
             continue
-
-        # Source and destination IP check (CIDR aware)
-        if rule.get("src_ip_net") and not matches_cidr(src_ip, rule["src_ip_net"]):
+        if r.get("src_ip_net") and not matches_cidr(src_ip, r["src_ip_net"]):
             continue
-        if rule.get("dst_ip_net") and not matches_cidr(dst_ip, rule["dst_ip_net"]):
+        if r.get("dst_ip_net") and not matches_cidr(dst_ip, r["dst_ip_net"]):
             continue
 
-        # Port checks
-        if rule.get("src_port") and int(src_port or 0) != int(rule["src_port"]):
-            continue
-        if rule.get("dst_port") and int(dst_port or 0) != int(rule["dst_port"]):
+        # Handle port lists and single ports
+        if isinstance(r.get("dst_port"), list):
+            if dst_port not in r["dst_port"]:
+                continue
+        elif r.get("dst_port") and int(dst_port or -1) != int(r["dst_port"]):
             continue
 
-        # GeoIP check
-        if rule.get("geoip_country"):
-            country = check_geoip(src_ip)
-            if not country or country.upper() != rule["geoip_country"].upper():
+        if r.get("geoip_country"):
+            c = check_geoip(src_ip)
+            if c is None or c.upper() != r["geoip_country"].upper():
                 continue
 
-        # Rate limit check
-        if rule.get("_rate_threshold") and rule.get("_rate_window"):
-            if rate_limited(src_ip, rule):
-                r = dict(rule)
-                r["_rate_hit"] = True
-                r["rule_id"] = rule.get("id")
-                return r
+        if rate_limited(src_ip, r):
+            r["_rate_hit"] = True
+            return r
 
-        # Return a safe copy of rule
-        matched = dict(rule)
-        matched["rule_id"] = rule.get("id")
-        return matched
+        return r
 
     return None
 
 
 # ----------------------------
-# Safe Logging (Final Stable Fix)
-# ----------------------------
-import uuid
-import os
-import time
-import json
-from datetime import datetime
-
-
-def safe_write(filepath, content):
-    """
-    Safely write content to a unique file to avoid WinError 183.
-    Each call produces a new unique filename with a UUID suffix.
-    """
-    base, ext = os.path.splitext(filepath)
-
-    for _ in range(3):
-        unique_path = f"{base}_{uuid.uuid4().hex}{ext}"
-        try:
-            # Use 'x' mode to ensure the file must not already exist
-            with open(unique_path, "x", encoding="utf-8") as f:
-                f.write(content)
-            return unique_path
-        except FileExistsError:
-            # If a UUID collision somehow occurs, retry
-            time.sleep(0.002)
-            continue
-        except OSError as e:
-            if getattr(e, "winerror", None) == 183:
-                # Another process created it in the same instant — retry
-                time.sleep(0.003)
-                continue
-            else:
-                print(f"[Write Error] {e}")
-                break
-    return None
-
-
-def log_packet(entry):
-    """
-    Log allowed or blocked packets to structured JSON + summary JSONL.
-    Writes each packet to a uniquely named JSON file.
-    """
-    from firewall_core import ALLOWED_DIR, BLOCKED_DIR, ALL_DIR, initialize_log_dirs
-
-    initialize_log_dirs()
-    action = entry.get("action", "UNKNOWN").upper()
-    date_str = datetime.now().strftime("%Y-%m-%d")
-
-    # Directories
-    dir_target = BLOCKED_DIR if action == "BLOCK" else ALLOWED_DIR
-
-    # Always generate a unique name
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
-    filename = f"packet_{timestamp}_{uuid.uuid4().hex[:6]}_{action.lower()}.json"
-    filepath = os.path.join(dir_target, filename)
-
-    # Write the detailed JSON safely
-    json_content = json.dumps(entry, indent=4, default=str)
-    safe_write(filepath, json_content)
-
-    # Append summary
-    summary_path = os.path.join(ALL_DIR, f"firewall_all_{date_str}.jsonl")
-    try:
-        with open(summary_path, "a", encoding="utf-8") as f:
-            f.write(json.dumps(entry, default=str) + "\n")
-    except Exception as e:
-        print(f"[Summary Log Error] {e}")
-# ----------------------------
-# Pretty-print helper
-# ----------------------------
-def rule_to_string(rule):
-    """Generate human-readable string summary of a rule."""
-    if not rule:
-        return "<no rule>"
-    parts = []
-    if rule.get("id"):
-        parts.append(f"id={rule['id']}")
-    parts.append(f"action={rule.get('action', 'allow')}")
-    if rule.get("protocol"):
-        parts.append(f"proto={rule['protocol']}")
-    if rule.get("dst_port"):
-        parts.append(f"dst_port={rule['dst_port']}")
-    if rule.get("src_ip"):
-        parts.append(f"src_ip={rule['src_ip']}")
-    if rule.get("dst_ip"):
-        parts.append(f"dst_ip={rule['dst_ip']}")
-    if rule.get("geoip_country"):
-        parts.append(f"geo={rule['geoip_country']}")
-    return ", ".join(parts)
-
-
-# ----------------------------
-# Self-test entrypoint
+# Self-Test (optional)
 # ----------------------------
 if __name__ == "__main__":
     print("=== Firewall Core Self-Test ===")
-    print(f"GeoIP available: {GEOIP_AVAILABLE}")
-    if GEOIP_AVAILABLE:
-        validate_geoip()
-
-    count = load_rules()
-    print(f"[+] Loaded {count} rules.")
-
+    validate_geoip()
+    n = load_rules()
+    print(f"[+] Loaded {n} rules.")
     pkt = {
         "src_addr": "8.8.8.8",
         "dst_addr": "1.1.1.1",
@@ -406,6 +328,5 @@ if __name__ == "__main__":
         "dst_port": 80,
         "protocol": "TCP"
     }
-
     rule = match_rule(pkt)
-    print("Matched Rule:", rule_to_string(rule) if rule else "None")
+    print("Matched Rule:", rule)
