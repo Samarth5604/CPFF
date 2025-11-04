@@ -443,6 +443,18 @@ def match_rule(packet, rules=None):
             if country is None or country.upper() != rule["geoip_country"].upper():
                 continue
 
+        # --- ✅ NEW SECTION: Increment rule hit count ---
+        try:
+            rid = rule.get("id", 0)
+            try:
+                rid_int = int(rid)
+            except (ValueError, TypeError):
+                rid_int = abs(hash(str(rid))) % (10**9)
+            _rule_hits[rid_int] += 1
+        except Exception:
+            pass
+        # ------------------------------------------------
+
         # Rate-limiting
         if rule.get("_rate_threshold") and rule.get("_rate_window"):
             if rate_limited(src_ip, rule):

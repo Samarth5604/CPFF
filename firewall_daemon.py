@@ -43,7 +43,7 @@ STATS_INTERVAL = 1
 
 # ADDED: AI configuration
 AI_REFRESH_INTERVAL = 300  # seconds (10 minutes)
-CONFIDENCE_THRESHOLD = 0.92  # only merge rules with confidence >= 0.92
+CONFIDENCE_THRESHOLD = 0.65  # only merge rules with confidence >= 0.92
 
 stop_event = threading.Event()
 
@@ -519,6 +519,20 @@ def firewall_loop():
                         "dst_port": getattr(packet, "dst_port", None),
                         "protocol": firewall_core.get_protocol_name(packet),
                     }
+                    
+                    # --- Track rule hits (safe for AI + static rules) ---
+                    try:
+                        if rule:
+                            rid = rule.get("id", 0)
+                            try:
+                                rid_int = int(rid)
+                            except (ValueError, TypeError):
+                                rid_int = abs(hash(str(rid))) % (10**9)
+                            firewall_core._rule_hits[rid_int] = firewall_core._rule_hits.get(rid_int, 0) + 1
+                    except Exception as e:
+                        print(f"[Rule Hit Error] {e}")
+                    # -----------------------------------------------------
+
 
                     # Default action
                     action = "allow"
