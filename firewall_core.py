@@ -396,38 +396,85 @@ def get_protocol_name(packet):
 
 
 def match_rule(packet, rules=None):
+    """
+    Compare a packet against rules.
+    Return the first matching rule dict or None.
+    """
     if rules is None:
-        proto = get_protocol_name(packet) or "ANY"
-        with _rules_lock:
-            candidates = list(_rules_by_proto.get(proto, [])) + list(_rules_by_proto.get("ANY", []))
-    else:
-        candidates = rules
+        rules = get_rules()
 
+    proto_name = get_protocol_name(packet)
     src_ip = getattr(packet, "src_addr", None)
     dst_ip = getattr(packet, "dst_addr", None)
+    src_port = getattr(packet, "src_port", None)
     dst_port = getattr(packet, "dst_port", None)
 
-    for r in candidates:
-        if not r.get("enabled", True):
-            continue
-        if r.get("src_ip_net") and not matches_cidr(src_ip, r["src_ip_net"]):
-            continue
-        if r.get("dst_ip_net") and not matches_cidr(dst_ip, r["dst_ip_net"]):
-            continue
-        if r.get("_dst_port_set") and int(dst_port) not in r["_dst_port_set"]:
-            continue
-        if r.get("_dst_port_single") and int(dst_port or -1) != int(r["_dst_port_single"]):
-            continue
-        if r.get("geoip_country"):
-            c = check_geoip(src_ip)
-            if not c or c.upper() != r["geoip_country"].upper():
+    for rule in rules:
+        # Protocol check
+        if rule.get("protocol"):
+            if proto_name is None or proto_name.upper() != rule["protocol"].upper():
                 continue
-        if rate_limited(src_ip, r):
-            _rule_hits[int(r.get("id", -1))] += 1
-            return r
-        _rule_hits[int(r.get("id", -1))] += 1
-        return r
-    return None
+
+        # Source IP
+        if rule.get("src_ip_net"):
+            if not matches_cidr(src_ip, rule["src_ip_net"]):
+                continue
+        elif rule.get("src_ip"):
+            if src_ip != rule["src_ip"]:
+                continue
+
+        # Destination IP
+        if rule.get("dst_ip_net"):
+            if not matches_cidr(dst_ip, rule["dst_ip_net"]):
+                continue
+        elif rule.get("dst_ip"):
+            if dst_ip != rule["dst_ip"]:
+                continue
+
+        # Ports
+        if rule.get("dst_port") and int(dst_port) != int(rule["dst_port"]):
+            continue
+        if rule.get("src_port") and int(src_port) != int(rule["src_port"]):
+            continue
+
+        # GeoIP
+        if rule.get("geoip_country"):
+            country = check_geoip(src_ip)
+            if country is None or country.upper() != rule["geoip_country"].upper():
+                continue
+
+        # Rate-limiting
+        if rule.get("_rate_threshold") and rule.get("_rate_window"):
+            if rate_limited(src_ip, rule):
+                rule["_match_metadata"] = {
+                    "rule_id": rule.get("id"),
+                    "rule_comment": rule.get("comment", ""),
+                    "rule_source": "static",
+                    "trigger_reason": "rate_limit_exceeded"
+                }
+                return rule
+
+        # Attach metadata for logging
+        rule["_match_metadata"] = {
+            "rule_id": rule.get("id"),
+            "rule_comment": rule.get("comment", ""),
+            "rule_source": "ai_generated" if rule.get("generated") else "static",
+            "trigger_reason": "rule_match"
+        }
+
+        return rule
+
+    # No rule matched → default allow
+    return {
+        "action": "allow",
+        "_match_metadata": {
+            "rule_id": "default",
+            "rule_comment": "No matching rule — default allow",
+            "rule_source": "system",
+            "trigger_reason": "no_rule"
+        }
+    }
+
 
 
 # ----------------------------
@@ -443,10 +490,17 @@ def _profiler_worker():
         with _rules_lock:
             for proto, lst in _rules_by_proto.items():
                 def key_fn(rule):
-                    base = int(rule.get("priority", 100))
-                    hits = snapshot.get(int(rule.get("id", 0)), 0)
-                    return (base, -hits * ADAPTIVE_WEIGHT)
+                    rid = rule.get("id", 0)
+                    try:
+                        rid_int = int(rid)
+                    except (ValueError, TypeError):
+                        # Use hash fallback for non-integer rule IDs (e.g. AI-generated)
+                        rid_int = abs(hash(str(rid))) % (10**9)
+                    hits = snapshot.get(rid_int, 0)
+                    return hits
+
                 _rules_by_proto[proto] = sorted(lst, key=key_fn)
+
             _rules[:] = [r for lst in _rules_by_proto.values() for r in lst]
         print("[Profiler] Adaptive rule ordering updated.")
 
@@ -469,19 +523,36 @@ def get_rule_hits():
     return dict(_rule_hits)
 
 
-def get_top_rules(n=10):
-    """Return top-N most hit rules."""
-    hits = sorted(_rule_hits.items(), key=lambda x: x[1], reverse=True)
-    rules = get_rules()
-    return [
-        {
-            "id": rid,
-            "hits": cnt,
-            "comment": next((r.get("comment") for r in rules if r.get("id") == rid), ""),
-            "action": next((r.get("action") for r in rules if r.get("id") == rid), ""),
-        }
-        for rid, cnt in hits[:n]
-    ]
+def get_top_rules(n=5):
+    """Return the top N rules ranked by hit count (ID-safe)."""
+    try:
+        rules = get_rules()
+        hits = get_rule_hits()
+        ranked = []
+
+        for rule in rules:
+            rid = rule.get("id", 0)
+            try:
+                rid_int = int(rid)
+            except (ValueError, TypeError):
+                rid_int = abs(hash(str(rid))) % (10**9)
+            hit_count = hits.get(rid_int, 0)
+            ranked.append({
+                "id": rule.get("id"),
+                "action": rule.get("action"),
+                "protocol": rule.get("protocol"),
+                "src_ip": rule.get("src_ip"),
+                "dst_port": rule.get("dst_port"),
+                "hits": hit_count,
+                "comment": rule.get("comment", "")
+            })
+
+        ranked.sort(key=lambda r: r["hits"], reverse=True)
+        return ranked[:n]
+
+    except Exception as e:
+        print(f"[Profiler Error] Failed to compute top rules: {e}")
+        return []
 
 
 def reset_rule_hits():

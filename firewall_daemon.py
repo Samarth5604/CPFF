@@ -9,6 +9,7 @@ Features:
  - Supports commands: status, reload, list, addrule, updaterule, delrule, profile, profile-reset, stop
  - Buffered logging for performance
  - Thread-safe and admin-safe execution
+ - Continuous AI-based rule suggestion and integration
 """
 
 import os
@@ -31,13 +32,18 @@ except Exception as e:
 
 import firewall_core
 import yaml
+import firewall_ai  # <-- ADDED: AI module integration
 
 # ----------------------------
 # Configuration
 # ----------------------------
 PIPE_NAME = r"\\.\pipe\cpff_firewall"
 WIN_FILTER = "true"
-STATS_INTERVAL = 5
+STATS_INTERVAL = 1
+
+# ADDED: AI configuration
+AI_REFRESH_INTERVAL = 300  # seconds (10 minutes)
+CONFIDENCE_THRESHOLD = 0.92  # only merge rules with confidence >= 0.92
 
 stop_event = threading.Event()
 
@@ -77,6 +83,117 @@ def _write_rules_yaml(rules_list):
         traceback.print_exc()
         return False
 
+
+# ----------------------------
+# ADDED: Continuous AI Rule Monitor with Logging
+# ----------------------------
+AI_LOG_PATH = os.path.join("logs", "ai_activity.log")
+
+
+def _log_ai_event(message):
+    """Append AI-related messages to ai_activity.log."""
+    try:
+        os.makedirs(os.path.dirname(AI_LOG_PATH), exist_ok=True)
+        with open(AI_LOG_PATH, "a", encoding="utf-8") as f:
+            ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+            f.write(f"[{ts}] {message}\n")
+    except Exception:
+        print(f"[AI-LogError] Failed to write to {AI_LOG_PATH}")
+
+
+def ai_rule_monitor():
+    """Background AI process that continuously learns and suggests new rules."""
+    print("[AI] Continuous AI rule analysis thread started.")
+    _log_ai_event("AI rule monitor started.")
+    while not stop_event.is_set():
+        try:
+            _log_ai_event("Starting new AI analysis cycle.")
+            suggestions = firewall_ai.analyze_and_suggest()
+            if suggestions:
+                msg = f"{len(suggestions)} new rule suggestions detected. Merging high-confidence rules..."
+                print(f"[AI] {msg}")
+                _log_ai_event(msg)
+                merge_ai_rules(suggestions)
+            else:
+                _log_ai_event("No new rule suggestions this cycle.")
+        except Exception as e:
+            print(f"[AI ERROR] {e}")
+            _log_ai_event(f"[ERROR] AI analysis failed: {e}")
+
+        # Sleep until next analysis cycle
+        for _ in range(AI_REFRESH_INTERVAL):
+            if stop_event.is_set():
+                break
+            time.sleep(1)
+
+    print("[AI] AI rule monitor stopped.")
+    _log_ai_event("AI rule monitor stopped.")
+
+
+def merge_ai_rules(suggestions, main_rules_path=firewall_core.RULES_PATH):
+    """
+    Merge AI-suggested rules into main rules.yaml based on confidence >= threshold.
+    Also removes merged rules from rules_suggestion.yaml.
+    """
+    if not suggestions:
+        _log_ai_event("merge_ai_rules() called with empty suggestion list.")
+        return
+
+    SUGGESTION_PATH = "rules_suggestion.yaml"
+
+    try:
+        # Load current rules
+        if os.path.exists(main_rules_path):
+            with open(main_rules_path, "r", encoding="utf-8") as f:
+                existing_rules = yaml.safe_load(f) or []
+        else:
+            existing_rules = []
+
+        existing_ids = {str(r.get("id")) for r in existing_rules}
+        merged_rules = []
+        kept_suggestions = []
+
+        for s in suggestions:
+            rid = str(s.get("id"))
+            conf = s.get("confidence", 0.0)
+
+            # If already in main rules, skip
+            if rid in existing_ids:
+                kept_suggestions.append(s)
+                continue
+
+            if conf >= CONFIDENCE_THRESHOLD:
+                s["enabled"] = True
+                existing_rules.append(s)
+                merged_rules.append(s)
+            else:
+                kept_suggestions.append(s)
+
+        # Save updated main rules
+        if merged_rules:
+            with open(main_rules_path, "w", encoding="utf-8") as f:
+                yaml.safe_dump(existing_rules, f, sort_keys=False)
+            msg = f"Merged {len(merged_rules)} new AI-generated rules into {main_rules_path}."
+            print(f"[AI] {msg}")
+            _log_ai_event(msg)
+        else:
+            msg = "No new unique AI rules to merge (all duplicates or low-confidence)."
+            print(f"[AI] {msg}")
+            _log_ai_event(msg)
+
+        # Update suggestions file — keep only unmerged rules
+        try:
+            with open(SUGGESTION_PATH, "w", encoding="utf-8") as f:
+                yaml.safe_dump(kept_suggestions, f, sort_keys=False)
+            if merged_rules:
+                _log_ai_event(f"Removed {len(merged_rules)} merged rules from {SUGGESTION_PATH}.")
+        except Exception as e:
+            _log_ai_event(f"[WARN] Failed to update {SUGGESTION_PATH}: {e}")
+
+    except Exception as e:
+        msg = f"[AI Merge Error] {e}"
+        print(msg)
+        _log_ai_event(msg)
 
 # ----------------------------
 # Named Pipe IPC Server
@@ -403,9 +520,30 @@ def firewall_loop():
                         "protocol": firewall_core.get_protocol_name(packet),
                     }
 
+                    # Default action
                     action = "allow"
+
                     if rule:
                         action = rule.get("action", "allow").lower()
+                        # Include metadata from rule
+                        if "_match_metadata" in rule:
+                            entry.update(rule["_match_metadata"])
+
+                    # Assign action + log
+                    entry["action"] = action.upper()
+
+                    try:
+                        firewall_core.log_packet(entry)
+                    except Exception as e:
+                        print(f"[Packet Error] {e}")
+
+                    # Handle block / allow
+                    if action == "block":
+                        stats["blocked"] += 1
+                        continue  # Drop packet
+                    else:
+                        stats["allowed"] += 1
+                        w.send(packet)
 
                     entry["action"] = action.upper()
 
@@ -457,11 +595,14 @@ def main():
     stats["rules_count"] = firewall_core.load_rules()
     print(f"[+] Loaded {stats['rules_count']} rules.")
 
-    # Start IPC + Firewall threads
+    # Start IPC + Firewall + AI threads
     ipc_thread = threading.Thread(target=ipc_server, daemon=True)
     fw_thread = threading.Thread(target=firewall_loop, daemon=True)
+    ai_thread = threading.Thread(target=ai_rule_monitor, daemon=True)  # ADDED: AI thread
+
     ipc_thread.start()
     fw_thread.start()
+    ai_thread.start()
 
     try:
         while not stop_event.is_set():
@@ -476,6 +617,8 @@ def main():
             fw_thread.join(timeout=2)
         if "ipc_thread" in locals() and ipc_thread.is_alive():
             ipc_thread.join(timeout=2)
+        if "ai_thread" in locals() and ai_thread.is_alive():
+            ai_thread.join(timeout=2)
     except KeyboardInterrupt:
         print("[!] Forced shutdown during thread join (Ctrl+C pressed again).")
     except Exception as e:
