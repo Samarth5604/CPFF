@@ -42,7 +42,7 @@ WIN_FILTER = "true"
 STATS_INTERVAL = 1
 
 # ADDED: AI configuration
-AI_REFRESH_INTERVAL = 300  # seconds (10 minutes)
+AI_REFRESH_INTERVAL = 30  # seconds (10 minutes)
 CONFIDENCE_THRESHOLD = 0.65  # only merge rules with confidence >= 0.92
 
 stop_event = threading.Event()

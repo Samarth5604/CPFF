@@ -1,4 +1,4 @@
-- id: ai-pair-1762412619-18765
+- id: ai-pair-1762422047-80327
   action: block
   protocol: TCP
   src_ip: fe80::b03b:2283:a0e4:da6d
@@ -7,7 +7,7 @@
   comment: 'AI-suggested block: fe80::b03b:2283:a0e4:da6d -> port 53 observed 1131
     times (concentrated traffic). (auto-generated, review)'
   confidence: 0.631
-- id: ai-port-1762412619-53
+- id: ai-port-1762422047-53
   action: block
   protocol: TCP
   src_ip: null
@@ -16,7 +16,7 @@
   comment: 'AI-suggested block: destination port 53 received 2444 hits from many sources;
     consider blocking or rate-limiting. (auto-generated, review before enabling)'
   confidence: 0.62
-- id: ai-port-1762412619-38504
+- id: ai-port-1762422047-38504
   action: block
   protocol: TCP
   src_ip: null
@@ -25,7 +25,7 @@
   comment: 'AI-suggested block: destination port 38504 received 2000 hits from many
     sources; consider blocking or rate-limiting. (auto-generated, review before enabling)'
   confidence: 0.575
-- id: ai-port-1762412619-38506
+- id: ai-port-1762422047-38506
   action: block
   protocol: TCP
   src_ip: null
@@ -34,7 +34,7 @@
   comment: 'AI-suggested block: destination port 38506 received 2000 hits from many
     sources; consider blocking or rate-limiting. (auto-generated, review before enabling)'
   confidence: 0.575
-- id: ai-pair-1762412619-6400
+- id: ai-pair-1762422047-92989
   action: block
   protocol: TCP
   src_ip: 104.86.188.184
@@ -43,7 +43,7 @@
   comment: 'AI-suggested block: 104.86.188.184 -> port 55025 observed 482 times (concentrated
     traffic). (auto-generated, review)'
   confidence: 0.566
-- id: ai-pair-1762412619-62491
+- id: ai-pair-1762422047-50373
   action: block
   protocol: TCP
   src_ip: 2401:4900:9158:c545:e1c4:a1ae:eaa4:f500
@@ -52,7 +52,7 @@
   comment: 'AI-suggested block: 2401:4900:9158:c545:e1c4:a1ae:eaa4:f500 -> port 443
     observed 440 times (concentrated traffic). (auto-generated, review)'
   confidence: 0.561
-- id: ai-pair-1762412619-78527
+- id: ai-pair-1762422047-7266
   action: block
   protocol: TCP
   src_ip: 172.20.10.5
@@ -61,7 +61,7 @@
   comment: 'AI-suggested block: 172.20.10.5 -> port 38504 observed 2000 times (concentrated
     traffic). (auto-generated, review)'
   confidence: 0.539
-- id: ai-pair-1762412619-80586
+- id: ai-pair-1762422047-5207
   action: block
   protocol: TCP
   src_ip: 172.20.10.5
@@ -70,7 +70,7 @@
   comment: 'AI-suggested block: 172.20.10.5 -> port 38506 observed 2000 times (concentrated
     traffic). (auto-generated, review)'
   confidence: 0.539
-- id: ai-1762412619-97452
+- id: ai-1762422047-22091
   action: block
   protocol: null
   src_ip: fe80::b03b:2283:a0e4:da6d
@@ -79,7 +79,7 @@
   comment: 'AI-suggested block: source fe80::b03b:2283:a0e4:da6d generated 1638 connections
     in recent logs; likely abusive. (auto-generated, review before enabling)'
   confidence: 0.535
-- id: ai-pair-1762412619-51939
+- id: ai-pair-1762422047-64361
   action: block
   protocol: TCP
   src_ip: 2404:6800:4007:81b::200e
@@ -88,7 +88,7 @@
   comment: 'AI-suggested block: 2404:6800:4007:81b::200e -> port 58304 observed 242
     times (concentrated traffic). (auto-generated, review)'
   confidence: 0.495
-- id: ai-pair-1762412619-13544
+- id: ai-pair-1762422047-33109
   action: block
   protocol: TCP
   src_ip: 127.0.0.1
@@ -97,7 +97,7 @@
   comment: 'AI-suggested block: 127.0.0.1 -> port 1900 observed 138 times (concentrated
     traffic). (auto-generated, review)'
   confidence: 0.489
-- id: ai-1762412619-39910
+- id: ai-1762422047-71916
   action: block
   protocol: null
   src_ip: 142.251.222.195
@@ -106,7 +106,7 @@
   comment: 'AI-suggested block: source 142.251.222.195 generated 795 connections in
     recent logs; likely abusive. (auto-generated, review before enabling)'
   confidence: 0.426
-- id: ai-pair-1762412619-57546
+- id: ai-pair-1762422047-28247
   action: block
   protocol: TCP
   src_ip: 172.20.10.5
@@ -115,7 +115,7 @@
   comment: 'AI-suggested block: 172.20.10.5 -> port 53 observed 1106 times (concentrated
     traffic). (auto-generated, review)'
   confidence: 0.404
-- id: ai-pair-1762412619-11783
+- id: ai-pair-1762422047-54072
   action: block
   protocol: TCP
   src_ip: ::1
@@ -124,7 +124,7 @@
   comment: 'AI-suggested block: ::1 -> port 3702 observed 64 times (concentrated traffic).
     (auto-generated, review)'
   confidence: 0.394
-- id: ai-1762412619-51436
+- id: ai-1762422047-54943
   action: block
   protocol: null
   src_ip: 104.86.188.184
@@ -133,7 +133,7 @@
   comment: 'AI-suggested block: source 104.86.188.184 generated 530 connections in
     recent logs; likely abusive. (auto-generated, review before enabling)'
   confidence: 0.387
-- id: ai-1762412619-90627
+- id: ai-1762422047-48998
   action: block
   protocol: null
   src_ip: 2401:4900:9158:c545:e1c4:a1ae:eaa4:f500
@@ -143,7 +143,7 @@
     517 connections in recent logs; likely abusive. (auto-generated, review before
     enabling)'
   confidence: 0.385
-- id: ai-1762412619-64719
+- id: ai-1762422047-60767
   action: block
   protocol: null
   src_ip: 2404:6800:4007:81b::200e
@@ -152,7 +152,7 @@
   comment: 'AI-suggested block: source 2404:6800:4007:81b::200e generated 398 connections
     in recent logs; likely abusive. (auto-generated, review before enabling)'
   confidence: 0.366
-- id: ai-1762412619-23351
+- id: ai-1762422047-96707
   action: block
   protocol: null
   src_ip: 127.0.0.1
@@ -161,7 +161,7 @@
   comment: 'AI-suggested block: source 127.0.0.1 generated 202 connections in recent
     logs; likely abusive. (auto-generated, review before enabling)'
   confidence: 0.3
-- id: ai-pair-1762412619-19133
+- id: ai-pair-1762422047-61302
   action: block
   protocol: TCP
   src_ip: 127.0.0.1
@@ -170,7 +170,7 @@
   comment: 'AI-suggested block: 127.0.0.1 -> port 3702 observed 64 times (concentrated
     traffic). (auto-generated, review)'
   confidence: 0.296
-- id: ai-1762412619-10555
+- id: ai-1762422047-68801
   action: block
   protocol: null
   src_ip: 192.168.236.82
@@ -179,7 +179,7 @@
   comment: 'AI-suggested block: source 192.168.236.82 generated 156 connections in
     recent logs; likely abusive. (auto-generated, review before enabling)'
   confidence: 0.28
-- id: ai-pair-1762412619-67904
+- id: ai-pair-1762422047-76499
   action: block
   protocol: TCP
   src_ip: 2404:6800:4007:81b::200e
@@ -188,7 +188,7 @@
   comment: 'AI-suggested block: 2404:6800:4007:81b::200e -> port 63167 observed 93
     times (concentrated traffic). (auto-generated, review)'
   confidence: 0.275
-- id: ai-pair-1762412619-17451
+- id: ai-pair-1762422047-60641
   action: block
   protocol: TCP
   src_ip: 192.168.236.211
@@ -197,7 +197,7 @@
   comment: 'AI-suggested block: 192.168.236.211 -> port 53 observed 201 times (concentrated
     traffic). (auto-generated, review)'
   confidence: 0.241
-- id: ai-pair-1762412619-39044
+- id: ai-pair-1762422047-58052
   action: block
   protocol: TCP
   src_ip: 172.20.10.5
@@ -206,7 +206,7 @@
   comment: 'AI-suggested block: 172.20.10.5 -> port 443 observed 251 times (concentrated
     traffic). (auto-generated, review)'
   confidence: 0.24
-- id: ai-pair-1762412619-64683
+- id: ai-pair-1762422047-22895
   action: block
   protocol: TCP
   src_ip: 2404:6800:4007:81b::200e
@@ -215,7 +215,7 @@
   comment: 'AI-suggested block: 2404:6800:4007:81b::200e -> port 49197 observed 61
     times (concentrated traffic). (auto-generated, review)'
   confidence: 0.221
-- id: ai-pair-1762412619-36939
+- id: ai-pair-1762422047-36585
   action: block
   protocol: TCP
   src_ip: 192.168.236.211

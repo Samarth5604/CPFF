@@ -46,9 +46,26 @@ def send_command(payload, timeout=5):
                 0, None
             )
             win32file.WriteFile(handle, json.dumps(payload).encode("utf-8"))
-            result = win32file.ReadFile(handle, 65536)[1]
+
+            # ---- FIX: read until no more data ----
+            chunks = []
+            while True:
+                try:
+                    data = win32file.ReadFile(handle, 65536)[1]
+                    if not data:
+                        break
+                    chunks.append(data)
+                    if len(data) < 65536:
+                        break  # likely finished
+                except pywintypes.error as e:
+                    if e.winerror == 109:  # Broken pipe / EOF
+                        break
+                    else:
+                        raise
+
             win32file.CloseHandle(handle)
-            return json.loads(result.decode("utf-8"))
+            full_data = b"".join(chunks)
+            return json.loads(full_data.decode("utf-8"))
         except pywintypes.error as e:
             if e.winerror == 2:
                 return None

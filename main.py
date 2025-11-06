@@ -1,13 +1,24 @@
+# main.py
 import sys
-import subprocess
-import os
+import warnings
+from PyQt6.QtWidgets import QApplication
+# local import
+from gui.main_window import CPFFGUI
+
+# suppress some noisy warnings that can cause slight slowdowns during UI bootstrap
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 def main():
-    if "--cli" in sys.argv:
-        subprocess.run([sys.executable, "firewall_client.py"] + sys.argv[1:])
-    else:
-        from gui_main import main as gui_main
-        gui_main()
+    app = QApplication(sys.argv)
+    # use a compact style for smoother rendering on Windows
+    try:
+        app.setStyle("Fusion")
+    except Exception:
+        pass
+
+    w = CPFFGUI()
+    w.show()
+    sys.exit(app.exec())
 
 if __name__ == "__main__":
     main()
