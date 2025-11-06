@@ -1650,3 +1650,403 @@
     observed 1593 times (concentrated traffic). (auto-generated, review)'
   confidence: 0.671
   enabled: true
+- id: ai-port-1762410658-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 received 4623 hits from many
+    sources; consider blocking or rate-limiting. (auto-generated, review before enabling)'
+  confidence: 0.78
+  enabled: true
+- id: ai-1762410658-33545
+  action: block
+  protocol: null
+  src_ip: 172.20.145.145
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 172.20.145.145 generated 3569 connections in
+    recent logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.713
+  enabled: true
+- id: ai-1762410658-75423
+  action: block
+  protocol: null
+  src_ip: 151.101.38.172
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 151.101.38.172 generated 3407 connections in
+    recent logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.701
+  enabled: true
+- id: ai-pair-1762410658-52185
+  action: block
+  protocol: TCP
+  src_ip: 2401:4900:915a:ac9e:d84c:bd6f:18c3:617d
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: 2401:4900:915a:ac9e:d84c:bd6f:18c3:617d -> port 443
+    observed 1593 times (concentrated traffic). (auto-generated, review)'
+  confidence: 0.671
+  enabled: true
+- id: ai-pair-1762410658-50861
+  action: block
+  protocol: TCP
+  src_ip: 172.20.145.145
+  dst_ip: null
+  dst_port: 80
+  comment: 'AI-suggested block: 172.20.145.145 -> port 80 observed 2050 times (concentrated
+    traffic). (auto-generated, review)'
+  confidence: 0.665
+  enabled: true
+- id: ai-port-1762410809-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 received 4708 hits from many
+    sources; consider blocking or rate-limiting. (auto-generated, review before enabling)'
+  confidence: 0.784
+  enabled: true
+- id: ai-1762410809-68742
+  action: block
+  protocol: null
+  src_ip: 172.20.145.145
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 172.20.145.145 generated 3347 connections in
+    recent logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.697
+  enabled: true
+- id: ai-1762410809-658
+  action: block
+  protocol: null
+  src_ip: 151.101.38.172
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 151.101.38.172 generated 3151 connections in
+    recent logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.682
+  enabled: true
+- id: ai-pair-1762410809-67292
+  action: block
+  protocol: TCP
+  src_ip: 2401:4900:915a:ac9e:d84c:bd6f:18c3:617d
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: 2401:4900:915a:ac9e:d84c:bd6f:18c3:617d -> port 443
+    observed 1593 times (concentrated traffic). (auto-generated, review)'
+  confidence: 0.671
+  enabled: true
+- id: ai-pair-1762410809-82612
+  action: block
+  protocol: TCP
+  src_ip: 172.20.145.145
+  dst_ip: null
+  dst_port: 80
+  comment: 'AI-suggested block: 172.20.145.145 -> port 80 observed 1914 times (concentrated
+    traffic). (auto-generated, review)'
+  confidence: 0.654
+  enabled: true
+- id: ai-port-1762411319-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 received 4628 hits from many
+    sources; consider blocking or rate-limiting. (auto-generated, review before enabling)'
+  confidence: 0.78
+  enabled: true
+- id: ai-1762411319-18625
+  action: block
+  protocol: null
+  src_ip: 172.20.145.145
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 172.20.145.145 generated 3080 connections in
+    recent logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.676
+  enabled: true
+- id: ai-1762411319-75169
+  action: block
+  protocol: null
+  src_ip: 151.101.38.172
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 151.101.38.172 generated 3034 connections in
+    recent logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.672
+  enabled: true
+- id: ai-pair-1762411319-82843
+  action: block
+  protocol: TCP
+  src_ip: 2401:4900:915a:ac9e:d84c:bd6f:18c3:617d
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: 2401:4900:915a:ac9e:d84c:bd6f:18c3:617d -> port 443
+    observed 1593 times (concentrated traffic). (auto-generated, review)'
+  confidence: 0.671
+  enabled: true
+- id: ai-1762411319-8926
+  action: block
+  protocol: null
+  src_ip: 172.20.10.5
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 172.20.10.5 generated 2848 connections in recent
+    logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.657
+  enabled: true
+- id: ai-pair-1762411319-24729
+  action: block
+  protocol: TCP
+  src_ip: 172.20.145.145
+  dst_ip: null
+  dst_port: 80
+  comment: 'AI-suggested block: 172.20.145.145 -> port 80 observed 1831 times (concentrated
+    traffic). (auto-generated, review)'
+  confidence: 0.657
+  enabled: true
+- id: ai-port-1762411414-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 received 4737 hits from many
+    sources; consider blocking or rate-limiting. (auto-generated, review before enabling)'
+  confidence: 0.786
+  enabled: true
+- id: ai-pair-1762411414-65907
+  action: block
+  protocol: TCP
+  src_ip: 2401:4900:915a:ac9e:d84c:bd6f:18c3:617d
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: 2401:4900:915a:ac9e:d84c:bd6f:18c3:617d -> port 443
+    observed 1593 times (concentrated traffic). (auto-generated, review)'
+  confidence: 0.671
+  enabled: true
+- id: ai-1762411414-27954
+  action: block
+  protocol: null
+  src_ip: 172.20.10.5
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 172.20.10.5 generated 2941 connections in recent
+    logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.664
+  enabled: true
+- id: ai-1762411414-40189
+  action: block
+  protocol: null
+  src_ip: 172.20.145.145
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 172.20.145.145 generated 2941 connections in
+    recent logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.664
+  enabled: true
+- id: ai-1762411414-94173
+  action: block
+  protocol: null
+  src_ip: 151.101.38.172
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 151.101.38.172 generated 2914 connections in
+    recent logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.662
+  enabled: true
+- id: ai-1762411715-27954
+  action: block
+  protocol: null
+  src_ip: 172.20.10.5
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 172.20.10.5 generated 7354 connections in recent
+    logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.889
+  enabled: true
+- id: ai-1762411715-36278
+  action: block
+  protocol: null
+  src_ip: 172.20.10.6
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 172.20.10.6 generated 4089 connections in recent
+    logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.748
+  enabled: true
+- id: ai-pair-1762411715-18765
+  action: block
+  protocol: TCP
+  src_ip: fe80::b03b:2283:a0e4:da6d
+  dst_ip: null
+  dst_port: 53
+  comment: 'AI-suggested block: fe80::b03b:2283:a0e4:da6d -> port 53 observed 1535
+    times (concentrated traffic). (auto-generated, review)'
+  confidence: 0.666
+  enabled: true
+- id: ai-port-1762411715-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 received 2852 hits from many
+    sources; consider blocking or rate-limiting. (auto-generated, review before enabling)'
+  confidence: 0.657
+  enabled: true
+- id: ai-port-1762411715-53
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 53
+  comment: 'AI-suggested block: destination port 53 received 2803 hits from many sources;
+    consider blocking or rate-limiting. (auto-generated, review before enabling)'
+  confidence: 0.653
+  enabled: true
+- id: ai-1762412016-27954
+  action: block
+  protocol: null
+  src_ip: 172.20.10.5
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 172.20.10.5 generated 6657 connections in recent
+    logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.867
+  enabled: true
+- id: ai-1762412016-36278
+  action: block
+  protocol: null
+  src_ip: 172.20.10.6
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 172.20.10.6 generated 4089 connections in recent
+    logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.748
+  enabled: true
+- id: ai-pair-1762412016-35953
+  action: block
+  protocol: TCP
+  src_ip: 192.168.236.211
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: 192.168.236.211 -> port 443 observed 2226 times (concentrated
+    traffic). (auto-generated, review)'
+  confidence: 0.719
+  enabled: true
+- id: ai-port-1762412016-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 received 3134 hits from many
+    sources; consider blocking or rate-limiting. (auto-generated, review before enabling)'
+  confidence: 0.68
+  enabled: true
+- id: ai-1762412318-27954
+  action: block
+  protocol: null
+  src_ip: 172.20.10.5
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 172.20.10.5 generated 6621 connections in recent
+    logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.866
+  enabled: true
+- id: ai-1762412318-36278
+  action: block
+  protocol: null
+  src_ip: 172.20.10.6
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 172.20.10.6 generated 4089 connections in recent
+    logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.748
+  enabled: true
+- id: ai-pair-1762412318-35953
+  action: block
+  protocol: TCP
+  src_ip: 192.168.236.211
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: 192.168.236.211 -> port 443 observed 2367 times (concentrated
+    traffic). (auto-generated, review)'
+  confidence: 0.729
+  enabled: true
+- id: ai-port-1762412318-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 received 3066 hits from many
+    sources; consider blocking or rate-limiting. (auto-generated, review before enabling)'
+  confidence: 0.675
+  enabled: true
+- id: ai-1762412318-51001
+  action: block
+  protocol: null
+  src_ip: 192.168.236.211
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 192.168.236.211 generated 2869 connections
+    in recent logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.658
+  enabled: true
+- id: ai-1762412619-27954
+  action: block
+  protocol: null
+  src_ip: 172.20.10.5
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 172.20.10.5 generated 6621 connections in recent
+    logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.866
+  enabled: true
+- id: ai-1762412619-36278
+  action: block
+  protocol: null
+  src_ip: 172.20.10.6
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 172.20.10.6 generated 4089 connections in recent
+    logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.748
+  enabled: true
+- id: ai-pair-1762412619-35953
+  action: block
+  protocol: TCP
+  src_ip: 192.168.236.211
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: 192.168.236.211 -> port 443 observed 2367 times (concentrated
+    traffic). (auto-generated, review)'
+  confidence: 0.729
+  enabled: true
+- id: ai-port-1762412619-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 received 3066 hits from many
+    sources; consider blocking or rate-limiting. (auto-generated, review before enabling)'
+  confidence: 0.675
+  enabled: true
+- id: ai-1762412619-51001
+  action: block
+  protocol: null
+  src_ip: 192.168.236.211
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: source 192.168.236.211 generated 2869 connections
+    in recent logs; likely abusive. (auto-generated, review before enabling)'
+  confidence: 0.658
+  enabled: true
