@@ -1,11 +1,11 @@
 # gui/educational_tab.py
 from PyQt6.QtWidgets import (
-    QWidget, QVBoxLayout, QLabel, QTextEdit, QPushButton, QHBoxLayout, QFrame,
-    QScrollArea
+    QWidget, QVBoxLayout, QLabel, QTextEdit, QPushButton, QHBoxLayout, QFrame, QScrollArea
 )
 from PyQt6.QtCore import Qt, QTimer, QRectF
 from PyQt6.QtGui import QColor, QPainter, QPen, QFont
 import yaml
+
 
 class PacketFlowWidget(QFrame):
     """Animated packet flow visualizer for educational demonstration."""
@@ -15,7 +15,7 @@ class PacketFlowWidget(QFrame):
         self.stage = 0
         self.timer = QTimer()
         self.timer.timeout.connect(self.animate)
-        self.timer.start(1800)  # smooth and low CPU
+        self.timer.start(1800)
 
     def animate(self):
         if not self.isVisible():
@@ -26,10 +26,8 @@ class PacketFlowWidget(QFrame):
     def paintEvent(self, event):
         if not self.isVisible():
             return
-
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
-
         try:
             stages = ["Ingress", "Rule Engine", "GeoIP / Rate-Limit", "Decision", "Egress"]
             spacing = 25
@@ -69,7 +67,8 @@ class PacketFlowWidget(QFrame):
                 painter.setFont(QFont("Segoe UI", 10))
                 painter.drawText(int((x1 + x2) / 2 - 10), int(y1 - 8), "→")
         finally:
-            painter.end()  # ensure cleanup
+            painter.end()
+
 
 class EducationalTab(QWidget):
     """Comprehensive learning and insight section for CPFF."""
@@ -79,7 +78,7 @@ class EducationalTab(QWidget):
 
     def init_ui(self):
         layout = QVBoxLayout()
-        title = QLabel("📘 Learn: Understanding and Building Firewalls")
+        title = QLabel("📘 Learn: Understanding Firewalls & The CPFF Project")
         title.setStyleSheet("font-size:20px; font-weight:bold;")
         layout.addWidget(title)
 
@@ -88,69 +87,127 @@ class EducationalTab(QWidget):
         container = QWidget()
         vbox = QVBoxLayout(container)
 
-        # Section 1 – Firewall Basics
+        # === SECTION 1: FIREWALL BASICS ===
         section1 = QLabel("""
-        <h2>🔹 What is a Firewall?</h2>
-        A <b>firewall</b> monitors and controls network traffic based on security rules. 
-        It acts as a barrier between trusted and untrusted networks.
+        🔹 <b>What is a Firewall?</b><br>
+        A <b>firewall</b> is a network security device or software that monitors, filters, and controls 
+        incoming and outgoing network traffic based on predefined security rules.<br><br>
+        Firewalls act as the first line of defense, separating trusted internal networks from untrusted external networks (like the internet). 
+        They can block malicious traffic, prevent data exfiltration, and enforce organizational security policies.
+        
+        🔸 <b>Types of Firewalls</b><br>
+        • <b>Packet Filtering Firewall</b>: Inspects packets independently, based on IP, port, and protocol.<br>
+        • <b>Stateful Firewall</b>: Tracks the state of active connections to allow only legitimate packets.<br>
+        • <b>Proxy Firewall</b>: Acts as an intermediary between clients and servers.<br>
+        • <b>Next-Generation Firewall (NGFW)</b>: Integrates intrusion prevention, application control, and AI analysis.<br><br>
+        
+        🔸 <b>Where It Works in OSI Model</b><br>
+        - Network Layer (Layer 3): IP-based filtering.<br>
+        - Transport Layer (Layer 4): Port-based control.<br>
+        - Application Layer (Layer 7): Deep packet inspection and filtering by service type.<br><br>
+
+        🔸 <b>Example:</b><br>
+        You can block all incoming TCP packets on port 23 (Telnet) to prevent unauthorized remote access.
         """)
         section1.setWordWrap(True)
         vbox.addWidget(section1)
 
-        # Section 2 – CPFF internals
-        vbox.addWidget(QLabel("<h2>🔧 How CPFF Works Internally</h2>"))
-        self.flow = PacketFlowWidget()
-        vbox.addWidget(self.flow)
+        vbox.addWidget(PacketFlowWidget())
+
+        # === SECTION 2: CPFF INSIGHTS ===
+        vbox.addWidget(QLabel("<h2>🔧 Inside CPFF: The Custom Packet Filtering Firewall</h2>"))
 
         cpff_desc = QLabel("""
-        CPFF (Custom Packet Filtering Firewall) shows real-time packet filtering and AI-assisted rule suggestions.
-        Components include:
-        <ul>
-          <li>Firewall Daemon (packet capture + filtering)</li>
-          <li>AI Engine (log-based rule discovery)</li>
-          <li>IPC Interface (communication between GUI and daemon)</li>
-          <li>YAML Rule System (human-friendly configuration)</li>
-        </ul>
+        CPFF (Custom Packet Filtering Firewall) is a complete educational and practical firewall system built in Python.
+        It demonstrates how packet inspection, rule enforcement, and even AI-assisted rule optimization can work together in real time.
+
+        🧩 Core Components:
+        • firewall_daemon.py – Runs as a background process, captures packets via WinDivert, and applies filtering rules.
+        • firewall_core.py – Contains the main rule engine, YAML parser, GeoIP filter, and logging system.
+        • firewall_ai.py – Continuously analyzes packet logs and generates intelligent rule suggestions based on abnormal patterns.
+        • cpff_ipc_client.py – Handles inter-process communication (IPC) between GUI and the daemon using Windows named pipes.
+        • GUI (PyQt6) – Offers a real-time control center with dashboards, rule editors, and a learning module.
+
+        CPFF merges the principles of traditional network firewalls and modern adaptive AI systems. 
+        It shows how a security tool can evolve by learning from its own traffic data.
         """)
         cpff_desc.setWordWrap(True)
         vbox.addWidget(cpff_desc)
 
-        # Section 3 – Build Your Own
-        vbox.addWidget(QLabel("<h2>🧠 Build Your Own Packet Filtering Firewall</h2>"))
+        # === SECTION 3: BUILD YOUR OWN FIREWALL ===
+        vbox.addWidget(QLabel("<h2>🧠 Build Your Own Packet Filtering Firewall (Step-by-Step Guide)</h2>"))
         build_guide = QTextEdit()
         build_guide.setReadOnly(True)
         build_guide.setStyleSheet("background:#1e1e1e; color:#dcdcdc; font-family:Consolas; font-size:13px;")
         build_guide.setPlainText(
-            """# Step-by-Step: Creating Your Own Firewall in Python
+            """# 🧱 Building a Packet Filtering Firewall in Python (Concept + Practice)
 
-1) Install dependencies:
-    pip install pydivert pyyaml jsonlines
+[1] Install required libraries
+    pip install pydivert pyyaml jsonlines geoip2
 
-2) Capture packets:
+[2] Capture packets using WinDivert
     from pydivert import WinDivert
-    with WinDivert("true") as w:
+    with WinDivert("inbound and ip") as w:
         for packet in w:
             print(packet.src_addr, "->", packet.dst_addr)
-            w.send(packet)
+            w.send(packet)  # reinject packet after inspection
 
-3) Simple rule example:
+[3] Define filtering rules
     rules = [
-      {"action":"block", "dst_port":8080},
-      {"action":"allow"}
+        {"id":1, "action":"block", "protocol":"TCP", "dst_port":8080, "comment":"Block HTTP traffic"},
+        {"id":2, "action":"allow"}
     ]
 
-4) Apply rules:
+[4] Match rules
     for packet in w:
+        match = None
         for rule in rules:
-            if rule.get("action") == "block" and getattr(packet, "dst_port", None) == 8080:
-                break  # drop
-        else:
-            w.send(packet)
+            if rule["action"] == "block" and packet.dst_port == rule["dst_port"]:
+                match = rule
+                break
+        if match:
+            continue  # drop packet
+        w.send(packet)
+
+[5] Add logging
+    Log allowed/blocked packets using jsonlines for analysis:
+    import jsonlines
+    with jsonlines.open("logs/firewall.jsonl", mode="a") as writer:
+        writer.write({"src":packet.src_addr, "dst":packet.dst_addr, "action":action})
+
+[6] Enhance with AI or analytics
+    Use Python’s pandas and counters to detect repetitive attacks.
+    Example: block any IP sending >100 connections in 1 minute.
+
+[7] Create a GUI (optional)
+    Use PyQt6 to visualize real-time stats, rules, and logs for educational and control purposes.
 """
         )
         vbox.addWidget(build_guide)
 
-        # Section 4 – Rule Simulation
+        # === SECTION 4: ADVANCED TOPICS ===
+        advanced_info = QLabel("""
+        <h2>⚙️ Advanced Concepts</h2>
+        🔸 <b>Stateful vs Stateless Filtering</b><br>
+        Stateless firewalls inspect packets individually, while stateful firewalls maintain a session table to track connection states.<br><br>
+
+        🔸 <b>GeoIP Filtering</b><br>
+        CPFF supports GeoIP lookups to block or allow traffic from specific countries based on IP mapping.<br><br>
+
+        🔸 <b>Rate Limiting</b><br>
+        Helps prevent DoS attacks by limiting the number of allowed packets from a source within a time window.<br><br>
+
+        🔸 <b>AI-Assisted Rule Generation</b><br>
+        CPFF’s AI analyzes packet logs, identifies suspicious patterns, and generates block suggestions. 
+        It can automatically merge safe suggestions into your rule set.<br><br>
+
+        🔸 <b>Packet Logging Format</b><br>
+        Each packet entry is logged in JSONL format with details like timestamp, src_ip, dst_ip, ports, and matched rule ID.
+        """)
+        advanced_info.setWordWrap(True)
+        vbox.addWidget(advanced_info)
+
+        # === SECTION 5: SIMULATION TOOL ===
         vbox.addWidget(QLabel("<h2>💡 Try Simulating a Rule</h2>"))
         sim_area = QHBoxLayout()
         self.rule_edit = QTextEdit()
@@ -169,8 +226,19 @@ class EducationalTab(QWidget):
         sim_area.addLayout(side)
         vbox.addLayout(sim_area)
 
-        # Footer
-        footer = QLabel("<i>CPFF Educational Module © 2025 • Built for learning and security research.</i>")
+        # === SECTION 6: REFERENCES ===
+        references = QLabel("""
+        <h2>📚 Further Reading & Resources</h2>
+        • <b>RFC 2979</b> – Behavior of and Requirements for Internet Firewalls<br>
+        • <b>WinDivert Documentation</b> – https://reqrypt.org/windivert.html<br>
+        • <b>Python Network Programming</b> – Python docs & socket library<br>
+        • <b>AI in Security</b> – Research on adaptive intrusion detection and learning firewalls<br><br>
+        Explore the codebase of CPFF to understand how a Python-based firewall can bridge education and real-world cybersecurity.
+        """)
+        references.setWordWrap(True)
+        vbox.addWidget(references)
+
+        footer = QLabel("<i>CPFF Educational Module © 2025 • Designed for research, learning, and innovation.</i>")
         footer.setAlignment(Qt.AlignmentFlag.AlignCenter)
         footer.setStyleSheet("color:gray; margin-top:10px;")
         vbox.addWidget(footer)
@@ -181,6 +249,7 @@ class EducationalTab(QWidget):
         self.setLayout(layout)
 
     def simulate_rule(self):
+        """Simple YAML-based rule simulation."""
         try:
             data = yaml.safe_load(self.rule_edit.toPlainText())
             if not isinstance(data, list) or not data[0].get("action"):

@@ -205,3 +205,511 @@
 [2025-11-06 09:40:48 UTC] Merged 5 new AI-generated rules into rules.yaml.
 [2025-11-06 09:40:48 UTC] Removed 5 merged rules from rules_suggestion.yaml.
 [2025-11-06 09:41:12 UTC] AI rule monitor stopped.
+[2025-11-07 03:41:37 UTC] AI rule monitor started.
+[2025-11-07 03:41:37 UTC] Starting new AI analysis cycle.
+[2025-11-07 03:41:38 UTC] 30 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 03:41:39 UTC] Merged 5 new AI-generated rules into rules.yaml.
+[2025-11-07 03:41:39 UTC] Removed 5 merged rules from rules_suggestion.yaml.
+[2025-11-07 03:42:09 UTC] Starting new AI analysis cycle.
+[2025-11-07 03:42:09 UTC] 29 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 03:42:10 UTC] Merged 4 new AI-generated rules into rules.yaml.
+[2025-11-07 03:42:10 UTC] Removed 4 merged rules from rules_suggestion.yaml.
+[2025-11-07 03:42:40 UTC] Starting new AI analysis cycle.
+[2025-11-07 03:42:41 UTC] 30 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 03:42:42 UTC] Merged 4 new AI-generated rules into rules.yaml.
+[2025-11-07 03:42:42 UTC] Removed 4 merged rules from rules_suggestion.yaml.
+[2025-11-07 03:43:12 UTC] Starting new AI analysis cycle.
+[2025-11-07 03:43:12 UTC] 30 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 03:43:14 UTC] Merged 4 new AI-generated rules into rules.yaml.
+[2025-11-07 03:43:14 UTC] Removed 4 merged rules from rules_suggestion.yaml.
+[2025-11-07 03:43:44 UTC] Starting new AI analysis cycle.
+[2025-11-07 03:43:44 UTC] 32 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 03:43:46 UTC] Merged 6 new AI-generated rules into rules.yaml.
+[2025-11-07 03:43:46 UTC] Removed 6 merged rules from rules_suggestion.yaml.
+[2025-11-07 03:44:17 UTC] Starting new AI analysis cycle.
+[2025-11-07 03:44:17 UTC] 31 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 03:44:18 UTC] Merged 6 new AI-generated rules into rules.yaml.
+[2025-11-07 03:44:18 UTC] Removed 6 merged rules from rules_suggestion.yaml.
+[2025-11-07 03:44:37 UTC] AI rule monitor stopped.
+[2025-11-07 03:45:48 UTC] AI rule monitor started.
+[2025-11-07 03:45:48 UTC] Starting new AI analysis cycle.
+[2025-11-07 03:45:49 UTC] 31 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 03:45:49 UTC] Merged 5 new AI-generated rules into rules.yaml.
+[2025-11-07 03:45:49 UTC] Removed 5 merged rules from rules_suggestion.yaml.
+[2025-11-07 03:46:19 UTC] Starting new AI analysis cycle.
+[2025-11-07 03:46:20 UTC] 31 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 03:46:21 UTC] Merged 5 new AI-generated rules into rules.yaml.
+[2025-11-07 03:46:21 UTC] Removed 5 merged rules from rules_suggestion.yaml.
+[2025-11-07 03:46:26 UTC] AI rule monitor stopped.
+[2025-11-07 03:59:04 UTC] AI rule monitor started.
+[2025-11-07 03:59:04 UTC] Starting new AI analysis cycle.
+[2025-11-07 03:59:04 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 03:59:04 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 03:59:04 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 03:59:34 UTC] Starting new AI analysis cycle.
+[2025-11-07 03:59:34 UTC] 19 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 03:59:35 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 03:59:35 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:00:05 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:00:05 UTC] 19 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:00:05 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 04:00:05 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:00:35 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:00:36 UTC] 21 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:00:36 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 04:00:36 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:01:06 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:01:06 UTC] 21 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:01:06 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:01:06 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:01:36 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:01:37 UTC] 21 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:01:37 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:01:37 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:02:07 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:02:07 UTC] 21 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:02:07 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:02:07 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:02:37 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:02:38 UTC] 22 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:02:38 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:02:38 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:03:08 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:03:09 UTC] 22 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:03:09 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:03:09 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:03:39 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:03:40 UTC] 22 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:03:40 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:03:40 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:04:10 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:04:10 UTC] 22 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:04:10 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:04:11 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:04:41 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:04:41 UTC] 22 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:04:41 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:04:41 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:05:11 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:05:12 UTC] 22 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:05:12 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:05:12 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:05:42 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:05:42 UTC] 22 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:05:42 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:05:42 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:06:12 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:06:13 UTC] 22 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:06:13 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:06:13 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:06:43 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:06:43 UTC] 20 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:06:44 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:06:44 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:07:14 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:07:14 UTC] 20 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:07:14 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 04:07:14 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:07:44 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:07:45 UTC] 18 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:07:45 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:07:45 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:07:57 UTC] AI rule monitor stopped.
+[2025-11-07 04:08:24 UTC] AI rule monitor started.
+[2025-11-07 04:08:24 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:08:24 UTC] 18 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:08:24 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 04:08:24 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:08:54 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:08:55 UTC] 18 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:08:55 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:08:55 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:09:09 UTC] AI rule monitor stopped.
+[2025-11-07 04:13:15 UTC] AI rule monitor started.
+[2025-11-07 04:13:15 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:13:15 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:13:16 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:13:16 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:13:46 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:13:46 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:13:46 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:13:46 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:14:08 UTC] AI rule monitor stopped.
+[2025-11-07 04:20:23 UTC] AI rule monitor started.
+[2025-11-07 04:20:23 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:20:24 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:20:24 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:20:24 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:20:54 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:20:54 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:20:55 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:20:55 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:21:25 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:21:25 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:21:25 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:21:26 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:21:56 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:21:56 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:21:56 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:21:56 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:22:26 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:22:27 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:22:27 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:22:27 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:22:57 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:22:58 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:22:58 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:22:58 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:23:28 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:23:29 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:23:29 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:23:29 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:23:59 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:24:00 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:24:00 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:24:00 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:24:30 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:24:30 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:24:31 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:24:31 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:25:01 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:25:01 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:25:02 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:25:02 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:25:32 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:25:32 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:25:33 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:25:33 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:26:03 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:26:03 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:26:04 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:26:04 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:26:34 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:26:34 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:26:34 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:26:34 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:27:04 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:27:05 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:27:05 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:27:05 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:27:35 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:27:35 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:27:35 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:27:35 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:28:05 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:28:06 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:28:06 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:28:06 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:28:36 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:28:37 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:28:37 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:28:37 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:29:07 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:29:07 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:29:07 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:29:07 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:29:38 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:29:38 UTC] 17 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:29:38 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:29:38 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:30:08 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:30:09 UTC] 19 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:30:09 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:30:09 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:30:39 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:30:39 UTC] 19 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:30:40 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:30:40 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:31:10 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:31:10 UTC] 21 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:31:10 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:31:10 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:31:40 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:31:41 UTC] 22 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:31:41 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:31:41 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:32:11 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:32:11 UTC] 22 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:32:12 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:32:12 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:32:42 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:32:42 UTC] 22 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:32:42 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:32:42 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:33:12 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:33:13 UTC] 22 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:33:13 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:33:13 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:33:43 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:33:44 UTC] 22 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:33:44 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:33:44 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:34:14 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:34:15 UTC] 22 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:34:15 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:34:15 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:34:45 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:34:45 UTC] 22 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:34:46 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:34:46 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:35:16 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:35:16 UTC] 22 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:35:16 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:35:16 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:35:46 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:35:47 UTC] 22 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:35:47 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:35:47 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:36:17 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:36:18 UTC] 22 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:36:18 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:36:18 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:36:48 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:36:49 UTC] 23 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:36:49 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:36:49 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:37:19 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:37:19 UTC] 23 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:37:20 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:37:20 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:37:50 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:37:51 UTC] 23 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:37:51 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:37:51 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:38:21 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:38:21 UTC] 23 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:38:22 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:38:22 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:38:52 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:38:52 UTC] 23 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:38:52 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:38:52 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:39:22 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:39:23 UTC] 23 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:39:23 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:39:23 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:39:53 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:39:54 UTC] 23 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:39:54 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:39:54 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:40:24 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:40:25 UTC] 23 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:40:25 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:40:25 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:40:55 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:40:55 UTC] 23 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:40:56 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:40:56 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:41:26 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:41:26 UTC] 23 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:41:26 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:41:26 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:41:56 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:41:57 UTC] 24 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:41:57 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:41:58 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:42:28 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:42:28 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:42:29 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:42:29 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:42:59 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:42:59 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:42:59 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:42:59 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:43:30 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:43:30 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:43:31 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:43:31 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:44:01 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:44:01 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:44:01 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:44:01 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:44:31 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:44:32 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:44:32 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:44:32 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:45:02 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:45:02 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:45:03 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:45:03 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:45:33 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:45:33 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:45:34 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:45:34 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:46:04 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:46:04 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:46:05 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:46:05 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:46:35 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:46:35 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:46:35 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:46:35 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:47:06 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:47:06 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:47:06 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:47:06 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:47:36 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:47:37 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:47:37 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:47:37 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:48:07 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:48:08 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:48:09 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:48:09 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:48:39 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:48:39 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:48:39 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:48:39 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:49:09 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:49:10 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:49:10 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:49:10 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:49:40 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:49:41 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:49:41 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:49:41 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:50:11 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:50:12 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:50:12 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:50:12 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:50:42 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:50:43 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:50:43 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:50:43 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:51:13 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:51:14 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:51:14 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:51:15 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:51:45 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:51:45 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:51:46 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:51:46 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:52:16 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:52:16 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:52:17 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:52:17 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:52:47 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:52:47 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:52:47 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:52:47 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:53:17 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:53:18 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:53:18 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:53:18 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:53:48 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:53:49 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:53:49 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:53:49 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:54:19 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:54:20 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:54:20 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:54:20 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:54:50 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:54:50 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:54:51 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:54:51 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:55:21 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:55:21 UTC] 25 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:55:22 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:55:22 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:55:52 UTC] Starting new AI analysis cycle.
+[2025-11-07 04:55:52 UTC] 26 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 04:55:53 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 04:55:53 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 04:56:12 UTC] AI rule monitor stopped.
+[2025-11-07 05:10:31 UTC] AI rule monitor started.
+[2025-11-07 05:10:31 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:10:32 UTC] 26 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:10:32 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 05:10:32 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:11:02 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:11:03 UTC] 26 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:11:03 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 05:11:03 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:11:33 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:11:33 UTC] 26 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:11:34 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 05:11:34 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:12:04 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:12:04 UTC] 26 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:12:04 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 05:12:04 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:12:34 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:12:36 UTC] 26 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:12:37 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 05:12:37 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:13:07 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:13:07 UTC] 26 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:13:08 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 05:13:08 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:13:38 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:13:40 UTC] 26 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:13:40 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 05:13:40 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:14:10 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:14:12 UTC] 26 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:14:13 UTC] Merged 2 new AI-generated rules into rules.yaml.
+[2025-11-07 05:14:13 UTC] Removed 2 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:14:43 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:14:43 UTC] 27 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:14:44 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 05:14:44 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:15:14 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:15:15 UTC] 27 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:15:16 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 05:15:16 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:15:25 UTC] AI rule monitor stopped.
+[2025-11-07 05:16:44 UTC] AI rule monitor started.
+[2025-11-07 05:16:44 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:16:44 UTC] 27 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:16:44 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 05:16:44 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:17:14 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:17:15 UTC] 27 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:17:15 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 05:17:15 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:17:45 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:17:45 UTC] 27 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:17:46 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 05:17:46 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:18:16 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:18:16 UTC] 27 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:18:17 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 05:18:17 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:18:47 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:18:47 UTC] 27 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:18:48 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 05:18:48 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:19:18 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:19:18 UTC] 27 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:19:18 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 05:19:18 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:19:48 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:19:49 UTC] 27 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:19:49 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 05:19:49 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:20:19 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:20:20 UTC] 27 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:20:20 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 05:20:20 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:20:50 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:20:51 UTC] 27 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:20:51 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 05:20:51 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:21:21 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:21:22 UTC] 27 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:21:22 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 05:21:22 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:21:52 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:21:53 UTC] 27 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:21:53 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 05:21:53 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:22:23 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:22:23 UTC] 27 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:22:24 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 05:22:24 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:22:54 UTC] Starting new AI analysis cycle.
+[2025-11-07 05:22:54 UTC] 27 new rule suggestions detected. Merging high-confidence rules...
+[2025-11-07 05:22:54 UTC] Merged 1 new AI-generated rules into rules.yaml.
+[2025-11-07 05:22:54 UTC] Removed 1 merged rules from rules_suggestion.yaml.
+[2025-11-07 05:23:05 UTC] AI rule monitor stopped.

@@ -1,33 +1,74 @@
 """
-firewall_ai.py
+firewall_ai.py — CPFF AI Rule Suggestion Engine (safe version)
 
-Simple rule-suggestion "AI" for CPFF:
- - Reads JSONL logs produced by firewall_core (ALL_DIR)
- - Finds frequent IPs / ports / ip-port pairs
- - Produces suggestions in the same rule format used by rules.yaml
- - Writes suggestions to rules_suggestion.yaml
- - Exposes analyze_and_suggest() for the daemon to call
+Analyzes recent firewall logs and suggests intelligent block rules based on:
+ - Aggressive source IPs
+ - High-volume destination ports
+ - Frequent (src, dst_port) pairs
+
+✅ Improvements:
+ - Skips local/private IPs (127.x, 192.168.x, 10.x, etc.)
+ - Skips your own machine’s IPs
+ - Maintains performance and compatibility
 """
 
 import os
-import time 
+import time
 import json
 import yaml
+import socket
+import ipaddress
 from collections import Counter, defaultdict
 from datetime import datetime
 import math
 import firewall_core
 
-# Configurable thresholds (tweak for your environment)
-LOG_LOOKBACK_SECONDS = 60 * 60 * 6   # look back 6 hours by default
-MAX_LINES_READ = 20000               # safety cap to avoid huge scans
-IP_HIT_THRESHOLD = 150               # suggest blocking IPs with >= this hits in lookback
-PORT_HIT_THRESHOLD = 500             # suggest blocking dst_port if many hits across srcs
-PAIR_HIT_THRESHOLD = 60              # suggest blocking specific (src, dst_port) pairs with >= this hits
-MIN_CONFIDENCE = 0.2                 # min computed confidence to include suggestion
+# =========================
+# Configurable Parameters
+# =========================
+LOG_LOOKBACK_SECONDS = 60 * 60 * 6   # 6 hours lookback
+MAX_LINES_READ = 20000               # safety limit
+IP_HIT_THRESHOLD = 150               # per-IP volume threshold
+PORT_HIT_THRESHOLD = 500             # per-port hit threshold
+PAIR_HIT_THRESHOLD = 60              # per (src,port) hit threshold
+MIN_CONFIDENCE = 0.2                 # min confidence to include
 SUGGESTION_PATH = "rules_suggestion.yaml"
-TOP_N = 50                           # maximum number of suggestions to return
+TOP_N = 50                           # max suggestions to keep
 
+# =========================
+# Helpers for local IP filtering
+# =========================
+def _is_private_or_local(ip: str) -> bool:
+    """Return True if IP is local, private, or loopback."""
+    try:
+        ip_obj = ipaddress.ip_address(ip)
+        if ip_obj.is_private or ip_obj.is_loopback or ip_obj.is_link_local:
+            return True
+    except Exception:
+        return False
+    return False
+
+
+def _get_local_ips():
+    """Return a set of local machine IPs to avoid self-blocks."""
+    local_ips = {"127.0.0.1"}
+    try:
+        hostname = socket.gethostname()
+        for addr in socket.getaddrinfo(hostname, None):
+            ip = addr[4][0]
+            if ":" not in ip:  # skip IPv6 for simplicity
+                local_ips.add(ip)
+    except Exception:
+        pass
+    return local_ips
+
+
+LOCAL_IPS = _get_local_ips()
+
+
+# =========================
+# Log Reader
+# =========================
 def _iter_log_lines():
     """
     Yield parsed JSON entries from the most recent firewall_all_*.jsonl files.
@@ -38,7 +79,8 @@ def _iter_log_lines():
         return
 
     files = sorted(
-        [os.path.join(all_dir, f) for f in os.listdir(all_dir) if f.startswith("firewall_all_") and f.endswith(".jsonl")],
+        [os.path.join(all_dir, f) for f in os.listdir(all_dir)
+         if f.startswith("firewall_all_") and f.endswith(".jsonl")],
         key=os.path.getmtime,
         reverse=True
     )
@@ -60,21 +102,16 @@ def _iter_log_lines():
                     except Exception:
                         continue
 
-                    # If there's a timestamp in the entry attempt to filter by lookback
+                    # Filter by timestamp if present
                     ts = None
                     for k in ("timestamp", "time", "ts"):
                         if k in obj:
                             try:
-                                # tolerant parse: expect ISO
-                                ts = datetime.fromisoformat(obj[k])
-                                ts = ts.timestamp()
+                                ts = datetime.fromisoformat(str(obj[k])).timestamp()
                             except Exception:
                                 ts = None
                             break
-
                     if ts and (now_ts - ts) > LOG_LOOKBACK_SECONDS:
-                        # since files are newest-first, if this file's line is too old,
-                        # continue to next line but do not break (there may be newer entries in same file).
                         continue
 
                     yield obj
@@ -85,33 +122,30 @@ def _iter_log_lines():
             continue
 
 
+# =========================
+# Confidence Scoring
+# =========================
 def _score_confidence(count, total_count):
-    """
-    Compute a simple confidence metric from counts.
-    Returns a float between 0 and 1.
-    Formula: sigmoid-like scaling with diminishing returns.
-    """
+    """Compute a confidence metric (0–1) based on frequency and volume."""
     if total_count <= 0:
         return 0.0
     ratio = count / total_count
-    # map ratio to [0,1] with a curve
-    val = 1 - math.exp(-5 * ratio)  # steeper curve
-    # scale by log of count to prefer absolute volume too
+    val = 1 - math.exp(-5 * ratio)  # sigmoid-like curve
     vol_factor = min(1.0, math.log1p(count) / 6.0)
     conf = val * 0.7 + vol_factor * 0.3
     return max(0.0, min(1.0, conf))
 
 
+# =========================
+# Main Analysis Function
+# =========================
 def analyze_and_suggest():
     """
-    Main entry: analyze recent logs and return a list of rule suggestion dicts.
+    Analyze recent logs and return AI rule suggestions.
 
-    Each suggestion is a dict in the same user-facing rule format:
-      id, action, protocol, src_ip, dst_ip, dst_port, comment, confidence
-
-    Returns an empty list if no meaningful suggestions.
+    Returns a list of rule dicts:
+      {id, action, protocol, src_ip, dst_ip, dst_port, comment, confidence}
     """
-    # Counters
     src_counter = Counter()
     dst_port_counter = Counter()
     pair_counter = Counter()
@@ -123,7 +157,7 @@ def analyze_and_suggest():
         src = entry.get("src_ip")
         dst_port = entry.get("dst_port")
         proto = entry.get("protocol") or entry.get("proto")
-        # normalize types
+
         try:
             dst_port = int(dst_port) if dst_port is not None else None
         except Exception:
@@ -139,25 +173,34 @@ def analyze_and_suggest():
 
     suggestions = []
 
-    # Heuristic 1: block top aggressive source IPs by volume
+    # ---------------------------------------------------------
+    # Heuristic 1: Aggressive Source IPs (external only)
+    # ---------------------------------------------------------
     for ip, cnt in src_counter.most_common(TOP_N):
+        if _is_private_or_local(ip) or ip in LOCAL_IPS:
+            continue  # skip local/internal IPs
         if cnt >= IP_HIT_THRESHOLD:
             conf = _score_confidence(cnt, total_entries)
             if conf < MIN_CONFIDENCE:
                 continue
             rule = {
-                "id": f"ai-{int(time.time())}-{abs(hash(ip))%100000}",
+                "id": f"ai-{int(time.time())}-{abs(hash(ip)) % 100000}",
                 "action": "block",
                 "protocol": None,
                 "src_ip": ip,
                 "dst_ip": None,
                 "dst_port": None,
-                "comment": f"AI-suggested block: source {ip} generated {cnt} connections in recent logs; likely abusive. (auto-generated, review before enabling)",
+                "comment": (
+                    f"AI-suggested block: external source {ip} made {cnt} "
+                    f"connections recently (auto-generated, review before enabling)."
+                ),
                 "confidence": round(conf, 3),
             }
             suggestions.append(rule)
 
-    # Heuristic 2: block dst_ports with very high total hits (many sources hitting same port)
+    # ---------------------------------------------------------
+    # Heuristic 2: High-volume Destination Ports
+    # ---------------------------------------------------------
     for port, cnt in dst_port_counter.most_common(TOP_N):
         if cnt >= PORT_HIT_THRESHOLD:
             conf = _score_confidence(cnt, total_entries)
@@ -166,47 +209,56 @@ def analyze_and_suggest():
             rule = {
                 "id": f"ai-port-{int(time.time())}-{port}",
                 "action": "block",
-                "protocol": "TCP",  # assume TCP for common ports
+                "protocol": "TCP",
                 "src_ip": None,
                 "dst_ip": None,
                 "dst_port": int(port),
-                "comment": f"AI-suggested block: destination port {port} received {cnt} hits from many sources; consider blocking or rate-limiting. (auto-generated, review before enabling)",
+                "comment": (
+                    f"AI-suggested block: destination port {port} had {cnt} hits "
+                    f"from many sources (auto-generated, review)."
+                ),
                 "confidence": round(conf, 3),
             }
             suggestions.append(rule)
 
-    # Heuristic 3: block frequent (src, dst_port) pairs that are unusually concentrated
+    # ---------------------------------------------------------
+    # Heuristic 3: Concentrated (src_ip, dst_port) pairs
+    # ---------------------------------------------------------
     for (src, port), cnt in pair_counter.most_common(TOP_N):
+        if _is_private_or_local(src) or src in LOCAL_IPS:
+            continue
         if cnt >= PAIR_HIT_THRESHOLD:
-            # relative confidence: fraction of this pair among that src's hits
             src_total = src_counter.get(src, 1)
             relative = cnt / src_total if src_total else 0.0
             conf_pair = _score_confidence(cnt, total_entries) * 0.7 + min(1.0, relative * 1.5) * 0.3
             if conf_pair < MIN_CONFIDENCE:
                 continue
             rule = {
-                "id": f"ai-pair-{int(time.time())}-{abs(hash((src, port)))%100000}",
+                "id": f"ai-pair-{int(time.time())}-{abs(hash((src, port))) % 100000}",
                 "action": "block",
                 "protocol": "TCP",
                 "src_ip": src,
                 "dst_ip": None,
                 "dst_port": int(port),
-                "comment": f"AI-suggested block: {src} -> port {port} observed {cnt} times (concentrated traffic). (auto-generated, review)",
+                "comment": (
+                    f"AI-suggested block: {src} → port {port} observed {cnt} times; "
+                    f"high concentration detected (auto-generated, review)."
+                ),
                 "confidence": round(conf_pair, 3),
             }
             suggestions.append(rule)
 
-    # dedupe by (src_ip, dst_port, action)
+    # ---------------------------------------------------------
+    # Deduplicate and Persist
+    # ---------------------------------------------------------
     unique = {}
     for s in suggestions:
         key = (s.get("src_ip"), s.get("dst_port"), s.get("action"))
-        # keep highest confidence
         if key not in unique or s.get("confidence", 0) > unique[key].get("confidence", 0):
             unique[key] = s
 
     final = sorted(unique.values(), key=lambda x: x.get("confidence", 0), reverse=True)[:TOP_N]
 
-    # Persist suggestions to YAML for review
     try:
         os.makedirs(os.path.dirname(SUGGESTION_PATH) or ".", exist_ok=True)
         with open(SUGGESTION_PATH, "w", encoding="utf-8") as f:
@@ -217,7 +269,9 @@ def analyze_and_suggest():
     return final
 
 
-# convenience wrapper used by daemon if it wants a simple list
+# ---------------------------------------------------------
+# Safe Wrapper (used by daemon)
+# ---------------------------------------------------------
 def analyze_and_suggest_safe():
     try:
         return analyze_and_suggest()

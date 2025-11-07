@@ -1,226 +1,234 @@
-- id: ai-pair-1762422047-80327
+- id: ai-pair-1762492974-17317
   action: block
   protocol: TCP
-  src_ip: fe80::b03b:2283:a0e4:da6d
+  src_ip: 2401:4900:232d:adc7:416a:fdf:fefb:52c
   dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: fe80::b03b:2283:a0e4:da6d -> port 53 observed 1131
-    times (concentrated traffic). (auto-generated, review)'
-  confidence: 0.631
-- id: ai-port-1762422047-53
+  dst_port: 443
+  comment: "AI-suggested block: 2401:4900:232d:adc7:416a:fdf:fefb:52c \u2192 port\
+    \ 443 observed 1167 times; high concentration detected (auto-generated, review)."
+  confidence: 0.634
+- id: ai-port-1762492974-53
   action: block
   protocol: TCP
   src_ip: null
   dst_ip: null
   dst_port: 53
-  comment: 'AI-suggested block: destination port 53 received 2444 hits from many sources;
-    consider blocking or rate-limiting. (auto-generated, review before enabling)'
-  confidence: 0.62
-- id: ai-port-1762422047-38504
+  comment: 'AI-suggested block: destination port 53 had 2505 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.626
+- id: ai-port-1762492974-38504
   action: block
   protocol: TCP
   src_ip: null
   dst_ip: null
   dst_port: 38504
-  comment: 'AI-suggested block: destination port 38504 received 2000 hits from many
-    sources; consider blocking or rate-limiting. (auto-generated, review before enabling)'
+  comment: 'AI-suggested block: destination port 38504 had 2000 hits from many sources
+    (auto-generated, review).'
   confidence: 0.575
-- id: ai-port-1762422047-38506
+- id: ai-port-1762492974-38506
   action: block
   protocol: TCP
   src_ip: null
   dst_ip: null
   dst_port: 38506
-  comment: 'AI-suggested block: destination port 38506 received 2000 hits from many
-    sources; consider blocking or rate-limiting. (auto-generated, review before enabling)'
+  comment: 'AI-suggested block: destination port 38506 had 2000 hits from many sources
+    (auto-generated, review).'
   confidence: 0.575
-- id: ai-pair-1762422047-92989
-  action: block
-  protocol: TCP
-  src_ip: 104.86.188.184
-  dst_ip: null
-  dst_port: 55025
-  comment: 'AI-suggested block: 104.86.188.184 -> port 55025 observed 482 times (concentrated
-    traffic). (auto-generated, review)'
-  confidence: 0.566
-- id: ai-pair-1762422047-50373
+- id: ai-pair-1762492974-78498
   action: block
   protocol: TCP
   src_ip: 2401:4900:9158:c545:e1c4:a1ae:eaa4:f500
   dst_ip: null
   dst_port: 443
-  comment: 'AI-suggested block: 2401:4900:9158:c545:e1c4:a1ae:eaa4:f500 -> port 443
-    observed 440 times (concentrated traffic). (auto-generated, review)'
-  confidence: 0.561
-- id: ai-pair-1762422047-7266
+  comment: "AI-suggested block: 2401:4900:9158:c545:e1c4:a1ae:eaa4:f500 \u2192 port\
+    \ 443 observed 427 times; high concentration detected (auto-generated, review)."
+  confidence: 0.56
+- id: ai-pair-1762492974-63781
   action: block
   protocol: TCP
-  src_ip: 172.20.10.5
+  src_ip: 2404:6800:4007:835::200e
   dst_ip: null
-  dst_port: 38504
-  comment: 'AI-suggested block: 172.20.10.5 -> port 38504 observed 2000 times (concentrated
-    traffic). (auto-generated, review)'
-  confidence: 0.539
-- id: ai-pair-1762422047-5207
+  dst_port: 65312
+  comment: "AI-suggested block: 2404:6800:4007:835::200e \u2192 port 65312 observed\
+    \ 418 times; high concentration detected (auto-generated, review)."
+  confidence: 0.515
+- id: ai-pair-1762492974-1490
   action: block
   protocol: TCP
-  src_ip: 172.20.10.5
+  src_ip: 2401:4900:232d:adc7:7dff:e1f:8a00:8f8e
   dst_ip: null
-  dst_port: 38506
-  comment: 'AI-suggested block: 172.20.10.5 -> port 38506 observed 2000 times (concentrated
-    traffic). (auto-generated, review)'
-  confidence: 0.539
-- id: ai-1762422047-22091
+  dst_port: 443
+  comment: "AI-suggested block: 2401:4900:232d:adc7:7dff:e1f:8a00:8f8e \u2192 port\
+    \ 443 observed 148 times; high concentration detected (auto-generated, review)."
+  confidence: 0.493
+- id: ai-1762492974-76346
   action: block
   protocol: null
-  src_ip: fe80::b03b:2283:a0e4:da6d
+  src_ip: 2401:4900:232d:adc7:416a:fdf:fefb:52c
   dst_ip: null
   dst_port: null
-  comment: 'AI-suggested block: source fe80::b03b:2283:a0e4:da6d generated 1638 connections
-    in recent logs; likely abusive. (auto-generated, review before enabling)'
-  confidence: 0.535
-- id: ai-pair-1762422047-64361
+  comment: 'AI-suggested block: external source 2401:4900:232d:adc7:416a:fdf:fefb:52c
+    made 1278 connections recently (auto-generated, review before enabling).'
+  confidence: 0.491
+- id: ai-pair-1762492974-67042
   action: block
   protocol: TCP
   src_ip: 2404:6800:4007:81b::200e
   dst_ip: null
   dst_port: 58304
-  comment: 'AI-suggested block: 2404:6800:4007:81b::200e -> port 58304 observed 242
-    times (concentrated traffic). (auto-generated, review)'
-  confidence: 0.495
-- id: ai-pair-1762422047-33109
-  action: block
-  protocol: TCP
-  src_ip: 127.0.0.1
-  dst_ip: null
-  dst_port: 1900
-  comment: 'AI-suggested block: 127.0.0.1 -> port 1900 observed 138 times (concentrated
-    traffic). (auto-generated, review)'
+  comment: "AI-suggested block: 2404:6800:4007:81b::200e \u2192 port 58304 observed\
+    \ 233 times; high concentration detected (auto-generated, review)."
   confidence: 0.489
-- id: ai-1762422047-71916
+- id: ai-1762492974-15641
   action: block
   protocol: null
-  src_ip: 142.251.222.195
+  src_ip: 2404:6800:4007:835::200e
   dst_ip: null
   dst_port: null
-  comment: 'AI-suggested block: source 142.251.222.195 generated 795 connections in
-    recent logs; likely abusive. (auto-generated, review before enabling)'
-  confidence: 0.426
-- id: ai-pair-1762422047-28247
-  action: block
-  protocol: TCP
-  src_ip: 172.20.10.5
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: 172.20.10.5 -> port 53 observed 1106 times (concentrated
-    traffic). (auto-generated, review)'
-  confidence: 0.404
-- id: ai-pair-1762422047-54072
-  action: block
-  protocol: TCP
-  src_ip: ::1
-  dst_ip: null
-  dst_port: 3702
-  comment: 'AI-suggested block: ::1 -> port 3702 observed 64 times (concentrated traffic).
-    (auto-generated, review)'
-  confidence: 0.394
-- id: ai-1762422047-54943
-  action: block
-  protocol: null
-  src_ip: 104.86.188.184
-  dst_ip: null
-  dst_port: null
-  comment: 'AI-suggested block: source 104.86.188.184 generated 530 connections in
-    recent logs; likely abusive. (auto-generated, review before enabling)'
-  confidence: 0.387
-- id: ai-1762422047-48998
+  comment: 'AI-suggested block: external source 2404:6800:4007:835::200e made 733
+    connections recently (auto-generated, review before enabling).'
+  confidence: 0.417
+- id: ai-1762492974-53655
   action: block
   protocol: null
   src_ip: 2401:4900:9158:c545:e1c4:a1ae:eaa4:f500
   dst_ip: null
   dst_port: null
-  comment: 'AI-suggested block: source 2401:4900:9158:c545:e1c4:a1ae:eaa4:f500 generated
-    517 connections in recent logs; likely abusive. (auto-generated, review before
-    enabling)'
-  confidence: 0.385
-- id: ai-1762422047-60767
+  comment: 'AI-suggested block: external source 2401:4900:9158:c545:e1c4:a1ae:eaa4:f500
+    made 497 connections recently (auto-generated, review before enabling).'
+  confidence: 0.382
+- id: ai-1762492974-38039
+  action: block
+  protocol: null
+  src_ip: 2620:1ec:33::11
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: external source 2620:1ec:33::11 made 444 connections
+    recently (auto-generated, review before enabling).'
+  confidence: 0.374
+- id: ai-1762492974-10219
+  action: block
+  protocol: null
+  src_ip: 150.171.27.11
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: external source 150.171.27.11 made 442 connections
+    recently (auto-generated, review before enabling).'
+  confidence: 0.373
+- id: ai-1762492974-35363
+  action: block
+  protocol: null
+  src_ip: 2620:1ec:33:1::11
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: external source 2620:1ec:33:1::11 made 427 connections
+    recently (auto-generated, review before enabling).'
+  confidence: 0.371
+- id: ai-1762492974-31903
+  action: block
+  protocol: null
+  src_ip: 150.171.28.11
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: external source 150.171.28.11 made 426 connections
+    recently (auto-generated, review before enabling).'
+  confidence: 0.371
+- id: ai-1762492974-32989
   action: block
   protocol: null
   src_ip: 2404:6800:4007:81b::200e
   dst_ip: null
   dst_port: null
-  comment: 'AI-suggested block: source 2404:6800:4007:81b::200e generated 398 connections
-    in recent logs; likely abusive. (auto-generated, review before enabling)'
-  confidence: 0.366
-- id: ai-1762422047-96707
+  comment: 'AI-suggested block: external source 2404:6800:4007:81b::200e made 388
+    connections recently (auto-generated, review before enabling).'
+  confidence: 0.363
+- id: ai-1762492974-11100
   action: block
   protocol: null
-  src_ip: 127.0.0.1
+  src_ip: 2620:1ec:bdf::58
   dst_ip: null
   dst_port: null
-  comment: 'AI-suggested block: source 127.0.0.1 generated 202 connections in recent
-    logs; likely abusive. (auto-generated, review before enabling)'
-  confidence: 0.3
-- id: ai-pair-1762422047-61302
+  comment: 'AI-suggested block: external source 2620:1ec:bdf::58 made 373 connections
+    recently (auto-generated, review before enabling).'
+  confidence: 0.359
+- id: ai-1762492974-25280
   action: block
-  protocol: TCP
-  src_ip: 127.0.0.1
+  protocol: null
+  src_ip: 2620:1ec:46::58
   dst_ip: null
-  dst_port: 3702
-  comment: 'AI-suggested block: 127.0.0.1 -> port 3702 observed 64 times (concentrated
-    traffic). (auto-generated, review)'
+  dst_port: null
+  comment: 'AI-suggested block: external source 2620:1ec:46::58 made 342 connections
+    recently (auto-generated, review before enabling).'
+  confidence: 0.349
+- id: ai-1762492974-26529
+  action: block
+  protocol: null
+  src_ip: 13.107.246.58
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: external source 13.107.246.58 made 290 connections
+    recently (auto-generated, review before enabling).'
+  confidence: 0.333
+- id: ai-1762492974-15614
+  action: block
+  protocol: null
+  src_ip: 13.107.213.58
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: external source 13.107.213.58 made 272 connections
+    recently (auto-generated, review before enabling).'
+  confidence: 0.326
+- id: ai-1762492974-36308
+  action: block
+  protocol: null
+  src_ip: 140.82.113.21
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: external source 140.82.113.21 made 197 connections
+    recently (auto-generated, review before enabling).'
+  confidence: 0.298
+- id: ai-1762492974-61996
+  action: block
+  protocol: null
+  src_ip: 13.107.5.93
+  dst_ip: null
+  dst_port: null
+  comment: 'AI-suggested block: external source 13.107.5.93 made 193 connections recently
+    (auto-generated, review before enabling).'
   confidence: 0.296
-- id: ai-1762422047-68801
+- id: ai-1762492974-19480
   action: block
   protocol: null
-  src_ip: 192.168.236.82
+  src_ip: 2401:4900:232d:adc7:7dff:e1f:8a00:8f8e
   dst_ip: null
   dst_port: null
-  comment: 'AI-suggested block: source 192.168.236.82 generated 156 connections in
-    recent logs; likely abusive. (auto-generated, review before enabling)'
-  confidence: 0.28
-- id: ai-pair-1762422047-76499
+  comment: 'AI-suggested block: external source 2401:4900:232d:adc7:7dff:e1f:8a00:8f8e
+    made 170 connections recently (auto-generated, review before enabling).'
+  confidence: 0.286
+- id: ai-pair-1762492974-9670
   action: block
   protocol: TCP
   src_ip: 2404:6800:4007:81b::200e
   dst_ip: null
   dst_port: 63167
-  comment: 'AI-suggested block: 2404:6800:4007:81b::200e -> port 63167 observed 93
-    times (concentrated traffic). (auto-generated, review)'
-  confidence: 0.275
-- id: ai-pair-1762422047-60641
+  comment: "AI-suggested block: 2404:6800:4007:81b::200e \u2192 port 63167 observed\
+    \ 93 times; high concentration detected (auto-generated, review)."
+  confidence: 0.278
+- id: ai-pair-1762492974-7640
   action: block
   protocol: TCP
-  src_ip: 192.168.236.211
+  src_ip: 2404:6800:4007:835::200e
   dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: 192.168.236.211 -> port 53 observed 201 times (concentrated
-    traffic). (auto-generated, review)'
-  confidence: 0.241
-- id: ai-pair-1762422047-58052
-  action: block
-  protocol: TCP
-  src_ip: 172.20.10.5
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: 172.20.10.5 -> port 443 observed 251 times (concentrated
-    traffic). (auto-generated, review)'
-  confidence: 0.24
-- id: ai-pair-1762422047-22895
+  dst_port: 56934
+  comment: "AI-suggested block: 2404:6800:4007:835::200e \u2192 port 56934 observed\
+    \ 119 times; high concentration detected (auto-generated, review)."
+  confidence: 0.255
+- id: ai-pair-1762492974-20214
   action: block
   protocol: TCP
   src_ip: 2404:6800:4007:81b::200e
   dst_ip: null
   dst_port: 49197
-  comment: 'AI-suggested block: 2404:6800:4007:81b::200e -> port 49197 observed 61
-    times (concentrated traffic). (auto-generated, review)'
-  confidence: 0.221
-- id: ai-pair-1762422047-36585
-  action: block
-  protocol: TCP
-  src_ip: 192.168.236.211
-  dst_ip: null
-  dst_port: 80
-  comment: 'AI-suggested block: 192.168.236.211 -> port 80 observed 135 times (concentrated
-    traffic). (auto-generated, review)'
-  confidence: 0.209
+  comment: "AI-suggested block: 2404:6800:4007:81b::200e \u2192 port 49197 observed\
+    \ 61 times; high concentration detected (auto-generated, review)."
+  confidence: 0.223

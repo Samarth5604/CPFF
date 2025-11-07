@@ -489,7 +489,7 @@ def handle_command(payload):
 # Firewall Packet Loop
 # ----------------------------
 def firewall_loop():
-    """WinDivert packet processing loop with async logging."""
+    """WinDivert packet processing loop with async logging. (fixed: no duplicate handling)"""
     try:
         import pydivert
     except Exception as e:
@@ -497,20 +497,36 @@ def firewall_loop():
         print(e)
         return
 
+    # load rules once at start
     stats["rules_count"] = firewall_core.load_rules()
     print(f"[+] Loaded {stats['rules_count']} rules.")
 
     last_stats_time = time.time()
 
+    # try to enable NO_LOOPBACK flag if pydivert exposes it
+    no_loopback_flag = None
     try:
-        with pydivert.WinDivert(WIN_FILTER) as w:
+        no_loopback_flag = pydivert.Flag.NO_LOOPBACK
+    except Exception:
+        no_loopback_flag = None
+
+    # if your WIN_FILTER is very broad consider narrowing to "inbound and ip"
+    # Example: WIN_FILTER = "inbound and ip"
+    open_kwargs = {}
+    if no_loopback_flag is not None:
+        open_kwargs["flags"] = no_loopback_flag
+
+    try:
+        with pydivert.WinDivert(WIN_FILTER, **open_kwargs) as w:
             print("[+] WinDivert handle opened.")
             while not stop_event.is_set():
                 try:
                     packet = w.recv()
-                    # match_rule expects a packet-like object; pydivert Packet works with the helper in core
+
+                    # match_rule expects a packet-like object; pydivert Packet works with core helpers
                     rule = firewall_core.match_rule(packet)
 
+                    # Build a single log entry (common fields)
                     entry = {
                         "timestamp": datetime.now(timezone.utc).isoformat(),
                         "src_ip": getattr(packet, "src_addr", None),
@@ -519,61 +535,55 @@ def firewall_loop():
                         "dst_port": getattr(packet, "dst_port", None),
                         "protocol": firewall_core.get_protocol_name(packet),
                     }
-                    
-                    # --- Track rule hits (safe for AI + static rules) ---
-                    try:
-                        if rule:
+
+                    # If a rule matched, increment its hit counter once and attach metadata
+                    if rule:
+                        try:
                             rid = rule.get("id", 0)
                             try:
                                 rid_int = int(rid)
                             except (ValueError, TypeError):
                                 rid_int = abs(hash(str(rid))) % (10**9)
+                            # increment exactly once per matched packet
                             firewall_core._rule_hits[rid_int] = firewall_core._rule_hits.get(rid_int, 0) + 1
-                    except Exception as e:
-                        print(f"[Rule Hit Error] {e}")
-                    # -----------------------------------------------------
+                        except Exception as e:
+                            print(f"[Rule Hit Error] {e}")
 
-
-                    # Default action
-                    action = "allow"
-
-                    if rule:
-                        action = rule.get("action", "allow").lower()
-                        # Include metadata from rule
+                        # include match metadata if provided
                         if "_match_metadata" in rule:
                             entry.update(rule["_match_metadata"])
 
-                    # Assign action + log
-                    entry["action"] = action.upper()
-
-                    try:
-                        firewall_core.log_packet(entry)
-                    except Exception as e:
-                        print(f"[Packet Error] {e}")
-
-                    # Handle block / allow
-                    if action == "block":
-                        stats["blocked"] += 1
-                        continue  # Drop packet
-                    else:
-                        stats["allowed"] += 1
-                        w.send(packet)
+                    # Determine action (single decision point)
+                    action = "allow"
+                    if rule:
+                        action = rule.get("action", "allow").lower()
 
                     entry["action"] = action.upper()
 
                     # Respect per-rule logging toggle (if rule present and has log=False, skip)
+                    should_log = True
                     if rule and rule.get("log") is False:
-                        pass  # do not log packet
-                    else:
-                        firewall_core.log_packet(entry)
+                        should_log = False
 
+                    # Log once (if allowed)
+                    if should_log:
+                        try:
+                            firewall_core.log_packet(entry)
+                        except Exception as e:
+                            print(f"[Packet Log Error] {e}")
+
+                    # Execute the verdict once
                     if action == "block":
                         stats["blocked"] += 1
-                        # drop packet by not calling w.send(packet)
+                        # Drop packet: do NOT reinject/send
                         continue
                     else:
                         stats["allowed"] += 1
-                        w.send(packet)
+                        try:
+                            w.send(packet)
+                        except Exception as e:
+                            # if send fails, continue loop (avoid double-send)
+                            print(f"[Send Error] {e}")
 
                 except Exception:
                     # ignore per-packet errors to keep loop running
@@ -587,6 +597,7 @@ def firewall_loop():
                         f"Uptime: {uptime//60}m{uptime%60:02d}s | Rules: {stats['rules_count']}"
                     )
                     last_stats_time = time.time()
+
     except Exception as e:
         print(f"[!] WinDivert error: {e}")
         traceback.print_exc()
