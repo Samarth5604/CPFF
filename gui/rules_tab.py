@@ -85,7 +85,7 @@ class RulesTab(QWidget):
                 pass
 
         if not new_rules:
-            self.display_error("⚠️ No rules available or daemon not ready.")
+            self.display_error("No rules available or daemon not ready.")
             return
 
         try:
@@ -124,11 +124,60 @@ class RulesTab(QWidget):
             filtered = [r for r in self.rules if any(text in str(v).lower() for v in r.values())]
         self.render(filtered)
 
+    def _normalize_payload_defaults(self, payload):
+        """
+        Ensure the payload includes a consistent, explicit set of keys so rules created from GUI
+        are complete (no silent mismatches).
+        """
+        # Common user-level fields expected by daemon/core
+        defaults = {
+            "action": "allow",
+            "protocol": None,      # None => wildcard/any
+            "src_ip": None,
+            "dst_ip": None,
+            "src_port": None,
+            "dst_port": None,
+            "geoip_country": None,
+            "comment": "",
+            "enabled": True,
+            "log": True,
+            "rate_limit": None,
+            "priority": 100,
+        }
+
+        # copy and ensure correct types for ports if comma-separated
+        normalized = {}
+        for k, v in defaults.items():
+            normalized[k] = payload.get(k, v)
+
+        # fix dst_port if user provided csv string
+        dp = normalized.get("dst_port")
+        if isinstance(dp, str) and "," in dp:
+            try:
+                normalized["dst_port"] = [int(x.strip()) for x in dp.split(",") if x.strip()]
+            except Exception:
+                normalized["dst_port"] = None
+        # ensure ints where appropriate
+        try:
+            if isinstance(normalized.get("priority"), str) and normalized["priority"].isdigit():
+                normalized["priority"] = int(normalized["priority"])
+        except Exception:
+            pass
+
+        # ensure action is lower-case string
+        if normalized.get("action"):
+            normalized["action"] = str(normalized["action"]).lower()
+
+        return normalized
+
     def add_rule(self):
         dlg = RuleDialog(self)
         if dlg.exec():
             try:
-                ipc.send("addrule", **dlg.get_payload())
+                payload = dlg.get_payload()
+                payload = self._normalize_payload_defaults(payload)
+                # use the IPC client's send wrapper (supports named-pipe)
+                ipc.send("addrule", **payload)
             except Exception as e:
                 QMessageBox.critical(self, "Error", f"Failed to add rule: {e}")
             self.load_rules()
@@ -147,7 +196,10 @@ class RulesTab(QWidget):
         dlg = RuleDialog(self, rule)
         if dlg.exec():
             try:
-                ipc.send("updaterule", **dlg.get_payload())
+                payload = dlg.get_payload()
+                payload["id"] = rule.get("id")
+                payload = self._normalize_payload_defaults(payload)
+                ipc.send("updaterule", **payload)
             except Exception as e:
                 QMessageBox.critical(self, "Error", f"Failed to update rule: {e}")
             self.load_rules()

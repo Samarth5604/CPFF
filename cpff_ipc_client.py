@@ -4,14 +4,16 @@ import win32file, pywintypes
 
 PIPE_NAME = r"\\.\pipe\cpff_firewall"
 
+
 class CPFFIPCClient:
     def __init__(self):
         self.pipe_name = PIPE_NAME
 
-    def send(self, cmd, timeout=5):
+    def send(self, cmd, timeout=5, **kwargs):
         """
         Send JSON command to daemon and read full response safely.
         Handles >64KB responses by reading until EOF.
+        Supports both positional payload dicts and keyword arguments.
         """
         start = time.time()
         while time.time() - start < timeout:
@@ -24,11 +26,22 @@ class CPFFIPCClient:
                     0, None
                 )
 
-                # Accept either dict or string command
-                payload = {"cmd": cmd} if isinstance(cmd, str) else cmd
+                # Build payload
+                if isinstance(cmd, str):
+                    payload = {"cmd": cmd}
+                elif isinstance(cmd, dict):
+                    payload = cmd
+                else:
+                    payload = {"cmd": str(cmd)}
+
+                # Merge keyword arguments if provided (e.g., from GUI)
+                if kwargs:
+                    payload.update(kwargs)
+
+                # Send payload
                 win32file.WriteFile(handle, json.dumps(payload).encode("utf-8"))
 
-                # --- FIX: read all chunks until done ---
+                # --- Read all chunks until done ---
                 chunks = []
                 while True:
                     try:

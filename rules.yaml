@@ -1,2133 +1,391 @@
 - id: 1
   action: block
-  protocol: TCP
-  dst_port: 8081
-  comment: Block unencrypted HTTP web traffic (insecure websites)
+  geoip_country: KR
+  comment: Block all incoming traffic from South Korea (GeoIP match)
   priority: 10
   enabled: true
   log: true
-  created_at: '2025-10-31T08:00:00Z'
-  updated_at: '2025-10-31T08:00:00Z'
-- id: 2
+- id: 9
+  action: allow
+  comment: Allow internal LAN communications
+  src_ip: 192.168.0.0/16
+  dst_ip: 192.168.0.0/16
+  priority: 70
+  enabled: true
+  log: false
+- id: 1762767994
   action: block
-  geoip_country: RU
-  comment: Block traffic from Russia (GeoIP demonstration)
+  protocol: null
+  src_ip: null
+  dst_ip: null
+  dst_port: null
+  geoip_country: US
+  comment: null
+  priority: 100
+  enabled: true
+  log: true
+- id: 10
+  action: allow
+  comment: Default allow fallback (low priority)
+  priority: 1000
+  enabled: true
+  log: false
+- id: 3
+  action: block
+  protocol: TCP
+  dst_port: 23
+  comment: Block Telnet connections (insecure protocol)
   priority: 20
   enabled: true
   log: true
-  created_at: '2025-10-31T08:00:00Z'
-  updated_at: '2025-10-31T08:00:00Z'
-- id: 3
-  action: block
-  geoip_country: CN
-  comment: Block traffic from China (GeoIP demonstration)
-  priority: 30
-  enabled: true
-  log: true
-  created_at: '2025-10-31T08:00:00Z'
-  updated_at: '2025-10-31T08:00:00Z'
 - id: 4
   action: block
-  geoip_country: US
-  comment: Block traffic from United States of America (GeoIP demonstration)
-  priority: 40
-  enabled: true
-  log: true
-  created_at: '2025-10-31T08:00:00Z'
-  updated_at: '2025-10-31T08:00:00Z'
-- id: 5
-  action: block
-  geoip_country: NK
-  comment: Block traffic from North Korea (GeoIP demonstration)
-  priority: 50
-  enabled: true
-  log: true
-  created_at: '2025-10-31T08:00:00Z'
-  updated_at: '2025-10-31T08:00:00Z'
-- id: 6
-  action: allow
-  src_ip: 192.168.0.0/16
-  dst_ip: 192.168.0.0/16
-  comment: Allow internal LAN communications
-  priority: 5
-  enabled: true
-  log: false
-  created_at: '2025-10-31T08:00:00Z'
-  updated_at: '2025-10-31T08:00:00Z'
-- id: 7
-  action: allow
-  protocol: UDP
-  dst_port: 53
-  comment: Allow DNS queries
-  priority: 6
-  enabled: true
-  log: false
-  created_at: '2025-10-31T08:00:00Z'
-  updated_at: '2025-10-31T08:00:00Z'
-- id: 8
-  action: allow
   protocol: TCP
-  dst_port: 443
-  comment: Allow secure HTTPS traffic
-  priority: 7
-  enabled: true
-  log: false
-  created_at: '2025-10-31T08:00:00Z'
-  updated_at: '2025-10-31T08:00:00Z'
-- id: 9
-  action: block
-  comment: Rate-limit clients making too many TCP connections
-  protocol: TCP
-  rate_limit:
-    threshold: 50
-    window_seconds: 10
-  priority: 15
-  enabled: true
-  log: true
-  created_at: '2025-10-31T08:00:00Z'
-  updated_at: '2025-10-31T08:00:00Z'
-- id: 10
-  action: block
-  comment: Block outbound email (SMTP) to prevent spam or data exfiltration
-  protocol: TCP
-  dst_port:
-  - 25
-  - 465
-  - 587
+  dst_port: 445
+  comment: Block SMB traffic to prevent lateral movement
   priority: 25
   enabled: true
   log: true
-  created_at: '2025-10-31T08:00:00Z'
-  updated_at: '2025-10-31T08:00:00Z'
-- id: 11
+- id: 6
   action: allow
-  comment: Default allow (catch-all)
-  priority: 999
+  protocol: TCP
+  dst_port: 22
+  comment: Allow SSH traffic
+  priority: 40
+  enabled: true
+  log: true
+- id: 7
+  action: allow
+  protocol: TCP
+  dst_port: 443
+  comment: Allow secure HTTPS web traffic
+  priority: 50
+  enabled: true
+  log: true
+- id: ai-port-1762754342-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 3172 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.683
+  enabled: true
+  priority: 100
+  log: true
+- id: ai-port-1762754373-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 3171 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.683
+  enabled: true
+  priority: 100
+  log: true
+- id: ai-port-1762754403-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 3171 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.683
+  enabled: true
+  priority: 100
+  log: true
+- id: ai-port-1762754434-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 3171 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.683
+  enabled: true
+  priority: 100
+  log: true
+- id: ai-port-1762754464-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 3171 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.683
+  enabled: true
+  priority: 100
+  log: true
+- id: ai-port-1762754618-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 3111 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.678
+  enabled: true
+  priority: 100
+  log: true
+- id: ai-port-1762754649-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 3108 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.678
+  enabled: true
+  priority: 100
+  log: true
+- id: ai-port-1762758810-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 3104 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.678
+  enabled: true
+  priority: 100
+  log: true
+- id: ai-port-1762758841-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 3104 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.678
+  enabled: true
+  priority: 100
+  log: true
+- id: ai-port-1762758963-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 3041 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.673
+  enabled: true
+  priority: 100
+  log: true
+- id: ai-port-1762766176-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 3041 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.673
+  enabled: true
+  priority: 100
+  log: true
+- id: ai-port-1762766238-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 3041 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.673
+  enabled: true
+  priority: 100
+  log: true
+- id: ai-port-1762766378-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 3041 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.673
+  enabled: true
+  priority: 100
+  log: true
+- id: ai-port-1762766408-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 3041 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.673
+  enabled: true
+  priority: 100
+  log: true
+- id: ai-port-1762766440-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 3041 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.673
+  enabled: true
+  priority: 100
+  log: true
+- id: ai-port-1762766485-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 3041 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.673
+  enabled: true
+  priority: 100
+  log: true
+- id: ai-port-1762766516-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 3041 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.673
+  enabled: true
+  priority: 100
+  log: true
+- id: ai-port-1762766566-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 3041 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.673
+  enabled: true
+  priority: 100
+  log: true
+- id: 5
+  action: block
+  protocol: UDP
+  dst_port: 137
+  comment: Block NetBIOS Name Service (UDP/137)
+  priority: 30
+  enabled: true
+  log: true
+- id: 8
+  action: allow
+  protocol: UDP
+  dst_port: 53
+  comment: Allow DNS lookups
+  priority: 60
   enabled: true
   log: false
-  created_at: '2025-10-31T08:00:00Z'
-  updated_at: '2025-10-31T08:00:00Z'
-- id: ai-port-1762487944-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3036 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.672
-  enabled: true
-- id: ai-port-1762487974-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3037 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.672
-  enabled: true
-- id: ai-port-1762488005-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3039 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.673
-  enabled: true
-- id: ai-port-1762488036-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3043 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.673
-  enabled: true
-- id: ai-port-1762488066-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3049 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.673
-  enabled: true
-- id: ai-port-1762488066-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2782 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.651
-  enabled: true
-- id: ai-port-1762488097-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3042 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.673
-  enabled: true
-- id: ai-port-1762488097-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2821 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.654
-  enabled: true
-- id: ai-port-1762488127-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3045 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.673
-  enabled: true
-- id: ai-port-1762488127-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2802 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.653
-  enabled: true
-- id: ai-port-1762488158-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3050 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.673
-  enabled: true
-- id: ai-port-1762488158-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2802 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.653
-  enabled: true
-- id: ai-port-1762488189-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3048 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.673
-  enabled: true
-- id: ai-port-1762488189-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2812 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.653
-  enabled: true
-- id: ai-port-1762488220-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3046 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.673
-  enabled: true
-- id: ai-port-1762488220-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2834 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.655
-  enabled: true
-- id: ai-port-1762488250-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3042 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.673
-  enabled: true
-- id: ai-port-1762488250-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2841 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.656
-  enabled: true
-- id: ai-port-1762488281-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3044 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.673
-  enabled: true
-- id: ai-port-1762488281-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2857 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.657
-  enabled: true
-- id: ai-port-1762488312-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3041 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.673
-  enabled: true
-- id: ai-port-1762488312-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2843 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.656
-  enabled: true
-- id: ai-port-1762488342-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3052 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.674
-  enabled: true
-- id: ai-port-1762488342-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2806 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.653
-  enabled: true
-- id: ai-port-1762488373-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3054 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.674
-  enabled: true
-- id: ai-port-1762488373-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2801 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.652
-  enabled: true
-- id: ai-port-1762488403-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3057 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.674
-  enabled: true
-- id: ai-port-1762488403-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2807 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.653
-  enabled: true
-- id: ai-port-1762488434-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3069 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.675
-  enabled: true
-- id: ai-port-1762488465-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3076 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.676
-  enabled: true
-- id: ai-port-1762488465-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2768 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.65
-  enabled: true
-- id: ai-port-1762488504-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3072 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.675
-  enabled: true
-- id: ai-port-1762488535-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3076 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.676
-  enabled: true
-- id: ai-port-1762488535-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2855 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.657
-  enabled: true
-- id: ai-port-1762488795-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3078 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.676
-  enabled: true
-- id: ai-port-1762488795-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2888 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.66
-  enabled: true
-- id: ai-port-1762488826-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3073 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.675
-  enabled: true
-- id: ai-port-1762488826-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2867 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489224-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3072 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.675
-  enabled: true
-- id: ai-port-1762489224-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2867 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489254-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3071 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.675
-  enabled: true
-- id: ai-port-1762489254-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2867 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489285-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3071 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.675
-  enabled: true
-- id: ai-port-1762489285-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2867 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489316-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3071 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.675
-  enabled: true
-- id: ai-port-1762489316-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2867 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489347-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3071 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.675
-  enabled: true
-- id: ai-port-1762489347-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2867 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489378-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3071 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.675
-  enabled: true
-- id: ai-port-1762489378-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2867 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489409-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3071 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.675
-  enabled: true
-- id: ai-port-1762489409-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2867 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489440-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3071 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.675
-  enabled: true
-- id: ai-port-1762489440-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2867 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489470-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3071 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.675
-  enabled: true
-- id: ai-port-1762489470-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2867 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489501-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3071 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.675
-  enabled: true
-- id: ai-port-1762489501-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2867 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489532-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3071 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.675
-  enabled: true
-- id: ai-port-1762489532-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2867 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489563-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3020 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.671
-  enabled: true
-- id: ai-port-1762489563-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2866 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489594-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3020 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.671
-  enabled: true
-- id: ai-port-1762489594-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2866 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489625-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3016 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.671
-  enabled: true
-- id: ai-port-1762489625-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2866 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489655-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3013 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.67
-  enabled: true
-- id: ai-port-1762489655-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2866 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489686-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3013 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.67
-  enabled: true
-- id: ai-port-1762489686-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2866 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489717-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3011 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.67
-  enabled: true
-- id: ai-port-1762489717-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2866 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489747-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3008 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.67
-  enabled: true
-- id: ai-port-1762489747-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2866 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489778-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 3003 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.67
-  enabled: true
-- id: ai-port-1762489778-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2866 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489809-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2999 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.669
-  enabled: true
-- id: ai-port-1762489809-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2866 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489839-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2996 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.669
-  enabled: true
-- id: ai-port-1762489839-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489870-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2993 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.669
-  enabled: true
-- id: ai-port-1762489870-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489901-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2988 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.668
-  enabled: true
-- id: ai-port-1762489901-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489931-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2987 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.668
-  enabled: true
-- id: ai-port-1762489931-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489962-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2980 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.668
-  enabled: true
-- id: ai-port-1762489962-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762489993-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2980 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.668
-  enabled: true
-- id: ai-port-1762489993-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490024-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2978 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.668
-  enabled: true
-- id: ai-port-1762490024-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490055-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2977 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490055-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490085-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2976 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490085-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490116-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2976 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490116-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490147-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2976 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490147-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490178-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2975 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490178-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490209-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2974 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490209-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490239-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2974 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490239-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490271-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2973 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490271-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490301-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2972 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490301-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490332-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2970 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490332-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490363-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2970 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490363-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490394-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2970 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490394-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490425-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2970 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490425-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490455-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2970 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490455-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490486-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2970 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490486-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490517-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2969 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490517-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490548-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2969 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490548-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490579-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2969 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490579-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490610-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2969 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490610-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490641-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2969 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490641-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490672-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2969 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490672-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490702-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2969 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490702-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490733-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2969 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490733-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490764-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2969 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490764-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490795-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2969 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490795-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490826-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2969 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490826-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490857-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2966 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.667
-  enabled: true
-- id: ai-port-1762490857-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490888-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2965 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.666
-  enabled: true
-- id: ai-port-1762490888-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490919-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2962 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.666
-  enabled: true
-- id: ai-port-1762490919-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490950-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2962 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.666
-  enabled: true
-- id: ai-port-1762490950-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762490981-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2962 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.666
-  enabled: true
-- id: ai-port-1762490981-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762491012-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2962 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.666
-  enabled: true
-- id: ai-port-1762491012-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762491043-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2962 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.666
-  enabled: true
-- id: ai-port-1762491043-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762491074-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2962 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.666
-  enabled: true
-- id: ai-port-1762491074-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762491105-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2962 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.666
-  enabled: true
-- id: ai-port-1762491105-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762491136-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2962 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.666
-  enabled: true
-- id: ai-port-1762491136-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762491167-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2961 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.666
-  enabled: true
-- id: ai-port-1762491167-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762491198-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2961 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.666
-  enabled: true
-- id: ai-port-1762491198-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762491229-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2961 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.666
-  enabled: true
-- id: ai-port-1762491229-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762491260-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2961 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.666
-  enabled: true
-- id: ai-port-1762491260-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762491290-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2961 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.666
-  enabled: true
-- id: ai-port-1762491290-443
-  action: block
+- id: 1762768283
+  action: allow
   protocol: TCP
   src_ip: null
   dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762491321-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2961 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.666
-  enabled: true
-- id: ai-port-1762491321-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762491352-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2960 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.666
-  enabled: true
-- id: ai-port-1762491352-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762492232-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2960 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.666
+  dst_port: null
+  geoip_country: null
+  comment: Allow all TCP
+  priority: 100
   enabled: true
-- id: ai-port-1762492232-443
+  log: true
+- id: ai-port-1762768293-443
   action: block
   protocol: TCP
   src_ip: null
   dst_ip: null
   dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.658
-  enabled: true
-- id: ai-port-1762492263-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2945 hits from many sources
+  comment: 'AI-suggested block: destination port 443 had 2944 hits from many sources
     (auto-generated, review).'
   confidence: 0.665
   enabled: true
-- id: ai-port-1762492263-443
+- id: ai-port-1762768323-443
   action: block
   protocol: TCP
   src_ip: null
   dst_ip: null
   dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
+  comment: 'AI-suggested block: destination port 443 had 2944 hits from many sources
     (auto-generated, review).'
-  confidence: 0.658
+  confidence: 0.665
   enabled: true
-- id: ai-port-1762492293-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2923 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.663
-  enabled: true
-- id: ai-port-1762492293-443
+- id: ai-port-1762768354-443
   action: block
   protocol: TCP
   src_ip: null
   dst_ip: null
   dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2860 hits from many sources
+  comment: 'AI-suggested block: destination port 443 had 2944 hits from many sources
     (auto-generated, review).'
-  confidence: 0.658
+  confidence: 0.665
   enabled: true
-- id: ai-port-1762492324-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2911 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.662
-  enabled: true
-- id: ai-port-1762492324-443
+- id: ai-port-1762768752-443
   action: block
   protocol: TCP
   src_ip: null
   dst_ip: null
   dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2859 hits from many sources
+  comment: 'AI-suggested block: destination port 443 had 2930 hits from many sources
     (auto-generated, review).'
-  confidence: 0.657
+  confidence: 0.664
   enabled: true
-- id: ai-port-1762492356-53
+- id: ai-port-1762768783-443
   action: block
   protocol: TCP
   src_ip: null
   dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2874 hits from many sources
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 2892 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.66
+  enabled: true
+- id: ai-port-1762768813-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 2876 hits from many sources
     (auto-generated, review).'
   confidence: 0.659
   enabled: true
-- id: ai-port-1762492356-443
+- id: ai-port-1762768844-443
   action: block
   protocol: TCP
   src_ip: null
   dst_ip: null
   dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2858 hits from many sources
+  comment: 'AI-suggested block: destination port 443 had 2863 hits from many sources
     (auto-generated, review).'
-  confidence: 0.657
+  confidence: 0.658
   enabled: true
-- id: ai-port-1762492387-443
+- id: ai-port-1762768874-443
   action: block
   protocol: TCP
   src_ip: null
   dst_ip: null
   dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2857 hits from many sources
+  comment: 'AI-suggested block: destination port 443 had 2853 hits from many sources
     (auto-generated, review).'
   confidence: 0.657
   enabled: true
-- id: ai-port-1762492387-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2826 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.655
-  enabled: true
-- id: ai-port-1762492419-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2855 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.657
-  enabled: true
-- id: ai-port-1762492419-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2823 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.654
-  enabled: true
-- id: ai-port-1762492451-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2854 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.657
-  enabled: true
-- id: ai-port-1762492451-53
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 53
-  comment: 'AI-suggested block: destination port 53 had 2784 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.651
-  enabled: true
-- id: ai-port-1762492483-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2852 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.657
-  enabled: true
-- id: ai-port-1762492515-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2852 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.657
-  enabled: true
-- id: ai-port-1762492604-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2852 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.657
-  enabled: true
-- id: ai-port-1762492635-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2852 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.657
-  enabled: true
-- id: ai-port-1762492665-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2850 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.657
-  enabled: true
-- id: ai-port-1762492696-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2849 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.657
-  enabled: true
-- id: ai-port-1762492727-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2849 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.657
-  enabled: true
-- id: ai-port-1762492758-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2849 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.657
-  enabled: true
-- id: ai-port-1762492789-443
+- id: ai-port-1762768905-443
   action: block
   protocol: TCP
   src_ip: null
@@ -2137,17 +395,7 @@
     (auto-generated, review).'
   confidence: 0.657
   enabled: true
-- id: ai-port-1762492820-443
-  action: block
-  protocol: TCP
-  src_ip: null
-  dst_ip: null
-  dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2847 hits from many sources
-    (auto-generated, review).'
-  confidence: 0.656
-  enabled: true
-- id: ai-port-1762492851-443
+- id: ai-port-1762768936-443
   action: block
   protocol: TCP
   src_ip: null
@@ -2157,43 +405,143 @@
     (auto-generated, review).'
   confidence: 0.656
   enabled: true
-- id: ai-port-1762492882-443
+- id: ai-port-1762768967-443
   action: block
   protocol: TCP
   src_ip: null
   dst_ip: null
   dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2843 hits from many sources
+  comment: 'AI-suggested block: destination port 443 had 2840 hits from many sources
     (auto-generated, review).'
   confidence: 0.656
   enabled: true
-- id: ai-port-1762492913-443
+- id: ai-port-1762768997-443
   action: block
   protocol: TCP
   src_ip: null
   dst_ip: null
   dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2843 hits from many sources
+  comment: 'AI-suggested block: destination port 443 had 2830 hits from many sources
     (auto-generated, review).'
-  confidence: 0.656
+  confidence: 0.655
   enabled: true
-- id: ai-port-1762492943-443
+- id: ai-port-1762769028-443
   action: block
   protocol: TCP
   src_ip: null
   dst_ip: null
   dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2843 hits from many sources
+  comment: 'AI-suggested block: destination port 443 had 2821 hits from many sources
     (auto-generated, review).'
-  confidence: 0.656
+  confidence: 0.654
   enabled: true
-- id: ai-port-1762492974-443
+- id: ai-port-1762769059-443
   action: block
   protocol: TCP
   src_ip: null
   dst_ip: null
   dst_port: 443
-  comment: 'AI-suggested block: destination port 443 had 2838 hits from many sources
+  comment: 'AI-suggested block: destination port 443 had 2816 hits from many sources
     (auto-generated, review).'
-  confidence: 0.656
+  confidence: 0.654
+  enabled: true
+- id: ai-port-1762769089-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 2815 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.654
+  enabled: true
+- id: ai-port-1762769120-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 2811 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.653
+  enabled: true
+- id: ai-port-1762769150-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 2803 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.653
+  enabled: true
+- id: ai-port-1762769181-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 2788 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.651
+  enabled: true
+- id: ai-port-1762769212-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 2788 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.651
+  enabled: true
+- id: ai-port-1762769242-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 2786 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.651
+  enabled: true
+- id: ai-port-1762769273-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 2786 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.651
+  enabled: true
+- id: ai-port-1762769303-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 2780 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.651
+  enabled: true
+- id: ai-port-1762769334-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 2773 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.65
+  enabled: true
+- id: ai-port-1762769365-443
+  action: block
+  protocol: TCP
+  src_ip: null
+  dst_ip: null
+  dst_port: 443
+  comment: 'AI-suggested block: destination port 443 had 2770 hits from many sources
+    (auto-generated, review).'
+  confidence: 0.65
   enabled: true
